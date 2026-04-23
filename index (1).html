@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSENA Partyverleih Dresden</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f4ef;
+  --bg2: #eeeae2;
+  --dark: #1a1610;
+  --gold: #b8922a;
+  --gold2: #d4aa4a;
+  --gold-light: rgba(184,146,42,0.12);
+  --white: #ffffff;
+  --text: #2c2518;
+  --muted: #8a7d65;
+  --border: #ddd8cc;
+  --card: #ffffff;
+  --green: #2d6a4f;
+  --amber: #b5770a;
+  --red: #8b2020;
+  --radius: 3px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ── HEADER ── */
+header {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(247,244,239,0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--dark);
+  letter-spacing: 2px;
+}
+.logo span { color: var(--gold); }
+.header-nav {
+  display: flex; gap: 8px;
+}
+.nav-btn {
+  background: none; border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 400;
+  color: var(--muted);
+  cursor: pointer; padding: 8px 16px;
+  border-radius: var(--radius);
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.nav-btn:hover { color: var(--text); background: var(--bg2); }
+.nav-cta {
+  background: var(--dark);
+  color: var(--white) !important;
+  font-weight: 500;
+}
+.nav-cta:hover { background: var(--gold) !important; color: var(--white) !important; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-top: 64px;
+}
+.hero-left {
+  display: flex; flex-direction: column;
+  justify-content: center;
+  padding: 80px 60px 80px 80px;
+  position: relative;
+}
+.hero-left::after {
+  content: '';
+  position: absolute; top: 0; right: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--border), transparent);
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+}
+.hero-tag::before {
+  content: '';
+  width: 24px; height: 1px;
+  background: var(--gold);
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--dark);
+  margin-bottom: 20px;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+.hero-desc {
+  font-size: 1rem; font-weight: 300;
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 400px;
+  margin-bottom: 48px;
+}
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-dark {
+  background: var(--dark);
+  color: var(--white);
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500;
+  letter-spacing: 1px;
+  padding: 14px 32px;
+  cursor: pointer;
+  transition: all 0.25s;
+  border-radius: var(--radius);
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-dark:hover { background: var(--gold); }
+.btn-outline {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 400;
+  padding: 14px 32px;
+  cursor: pointer;
+  transition: all 0.25s;
+  border-radius: var(--radius);
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+.hero-stats {
+  display: flex; gap: 40px;
+  margin-top: 64px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem; font-weight: 700;
+  color: var(--dark);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 11px; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--muted);
+  margin-top: 4px;
+}
+
+.hero-right {
+  background: var(--bg2);
+  display: flex; align-items: center; justify-content: center;
+  padding: 80px 60px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-right::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(184,146,42,0.1), transparent 70%);
+}
+.chair-grid-preview {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  max-width: 320px;
+}
+.chair-preview-card {
+  aspect-ratio: 1;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.chair-preview-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+.chair-preview-card.folding { background: var(--bg2); }
+
+/* ── PRODUCTS SECTION ── */
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 100px 40px;
+}
+.section-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 48px;
+  gap: 40px;
+}
+.section-tag {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-tag::before { content: ''; width: 20px; height: 1px; background: var(--gold); }
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 400;
+  color: var(--dark);
+  line-height: 1.2;
+}
+.section-title em { font-style: italic; color: var(--gold); }
+
+/* ── PRODUCT CARDS ── */
+.products-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.product-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+.product-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+.product-card-img {
+  height: 220px;
+  background: var(--bg2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 5rem;
+  position: relative;
+  border-bottom: 1px solid var(--border);
+}
+.product-badge {
+  position: absolute; top: 16px; right: 16px;
+  background: var(--dark);
+  color: var(--white);
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 2px; text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: var(--radius);
+}
+.product-badge.gold { background: var(--gold); }
+.product-body { padding: 28px; }
+.product-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; font-weight: 400;
+  color: var(--dark);
+  margin-bottom: 6px;
+}
+.product-price-row {
+  display: flex; align-items: baseline; gap: 6px;
+  margin-bottom: 20px;
+}
+.product-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem; font-weight: 700;
+  color: var(--gold);
+}
+.product-price-sub {
+  font-size: 12px; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.product-features {
+  list-style: none;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+.product-features li {
+  font-size: 0.875rem; font-weight: 300;
+  color: var(--muted);
+  padding: 6px 0;
+  display: flex; align-items: center; gap: 10px;
+}
+.product-features li::before {
+  content: '✓';
+  color: var(--gold);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+.stock-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 16px;
+  font-size: 12px; font-weight: 500;
+  color: var(--green);
+  background: rgba(45,106,79,0.1);
+  padding: 5px 12px; border-radius: 99px;
+}
+.stock-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+
+/* ── LIEFEROPTION ── */
+.delivery-banner {
+  background: var(--dark);
+  color: var(--white);
+  border-radius: 8px;
+  padding: 36px 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px;
+  margin-top: 24px;
+}
+.delivery-left { display: flex; align-items: center; gap: 20px; }
+.delivery-icon {
+  width: 56px; height: 56px;
+  background: rgba(184,146,42,0.2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+.delivery-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem; font-weight: 400;
+  margin-bottom: 4px;
+}
+.delivery-sub { font-size: 13px; color: rgba(255,255,255,0.6); }
+.delivery-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem; font-weight: 700;
+  color: var(--gold2);
+  white-space: nowrap;
+}
+.delivery-price-sub { font-size: 11px; color: rgba(255,255,255,0.5); text-align: right; }
+
+/* ── BOOKING SECTION ── */
+.booking-section {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.booking-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 100px 40px;
+}
+
+.booking-grid {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 32px;
+  align-items: start;
+  margin-top: 48px;
+}
+
+/* CALENDAR */
+.cal-wrap {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 28px;
+  margin-bottom: 20px;
+}
+.cal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px;
+}
+.cal-month-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem; font-weight: 400;
+}
+.cal-nav {
+  width: 34px; height: 34px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer; font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; color: var(--muted);
+}
+.cal-nav:hover { border-color: var(--gold); color: var(--gold); }
+
+.cal-days-header {
+  display: grid; grid-template-columns: repeat(7,1fr);
+  gap: 2px; margin-bottom: 4px;
+}
+.cal-day-name {
+  text-align: center;
+  font-size: 10px; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--muted);
+  padding: 6px 0;
+}
+.cal-grid {
+  display: grid; grid-template-columns: repeat(7,1fr);
+  gap: 2px;
+}
+.cal-day {
+  aspect-ratio: 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  cursor: pointer; border-radius: 4px;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+  font-size: 0.85rem;
+  position: relative;
+}
+.cal-day.empty { cursor: default; }
+.cal-day.past { opacity: 0.25; cursor: not-allowed; }
+.cal-day.available { border-color: var(--border); }
+.cal-day.available:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-light); }
+.cal-day.limited { border-color: rgba(181,119,10,0.4); background: rgba(181,119,10,0.06); }
+.cal-day.full { border-color: rgba(139,32,32,0.3); background: rgba(139,32,32,0.05); cursor: not-allowed; opacity: 0.5; }
+.cal-day.selected { background: var(--dark); border-color: var(--dark); color: var(--white); }
+.cal-day.in-range { background: var(--gold-light); border-color: rgba(184,146,42,0.3); }
+.cal-day-num { font-size: 0.85rem; line-height: 1; }
+.cal-day-avail { font-size: 8px; color: var(--muted); margin-top: 1px; }
+.cal-day.available .cal-day-avail { color: var(--green); }
+.cal-day.limited .cal-day-avail { color: var(--amber); }
+
+.cal-legend {
+  display: flex; gap: 16px; flex-wrap: wrap;
+  margin-top: 14px; padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.cal-legend-item {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.cal-legend-dot {
+  width: 10px; height: 10px; border-radius: 2px; border: 1px solid;
+}
+
+/* INVENTORY */
+.inventory-wrap {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+}
+.inv-title {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 8px;
+}
+.inv-date-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem; color: var(--muted);
+  margin-bottom: 14px;
+}
+.inv-section-label {
+  font-size: 11px; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 1px;
+  margin-bottom: 8px; margin-top: 14px;
+}
+.inv-grid {
+  display: grid; grid-template-columns: repeat(10,1fr);
+  gap: 4px;
+}
+.inv-unit {
+  aspect-ratio: 1; border-radius: 3px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.95rem;
+  transition: transform 0.15s;
+}
+.inv-unit.free { background: rgba(45,106,79,0.12); border: 1px solid rgba(45,106,79,0.3); }
+.inv-unit.booked { background: rgba(139,32,32,0.12); border: 1px solid rgba(139,32,32,0.3); filter: grayscale(0.6); opacity: 0.5; }
+.inv-unit:hover { transform: scale(1.15); }
+.inv-legend {
+  display: flex; gap: 16px;
+  margin-top: 10px;
+  font-size: 11px; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.inv-dot {
+  display: inline-block;
+  width: 8px; height: 8px; border-radius: 2px;
+  margin-right: 5px;
+}
+
+/* BOOKING FORM */
+.booking-form {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 32px;
+  position: sticky; top: 80px;
+}
+.form-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem; font-weight: 400;
+  color: var(--dark); margin-bottom: 4px;
+}
+.form-subtitle {
+  font-size: 12px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 28px;
+}
+
+/* Stuhltyp Auswahl */
+.chair-type-select {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px; margin-bottom: 20px;
+}
+.chair-type-btn {
+  padding: 12px 10px;
+  border: 2px solid var(--border);
+  background: var(--bg);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  font-family: 'DM Sans', sans-serif;
+}
+.chair-type-btn:hover { border-color: var(--gold); }
+.chair-type-btn.active { border-color: var(--dark); background: var(--dark); }
+.chair-type-btn.active .ct-icon { filter: none; }
+.chair-type-btn.active .ct-name { color: var(--white); }
+.chair-type-btn.active .ct-price { color: var(--gold2); }
+.ct-icon { font-size: 1.4rem; display: block; margin-bottom: 4px; }
+.ct-name { font-size: 12px; font-weight: 500; color: var(--text); display: block; }
+.ct-price { font-size: 11px; color: var(--muted); display: block; }
+
+/* Lieferoption */
+.delivery-option {
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 20px;
+  user-select: none;
+}
+.delivery-option:hover { border-color: var(--gold); }
+.delivery-option.active { border-color: var(--dark); background: rgba(26,22,16,0.04); }
+.delivery-option input[type=checkbox] { display: none; }
+.delivery-checkbox {
+  width: 20px; height: 20px;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+  font-size: 12px;
+}
+.delivery-option.active .delivery-checkbox { background: var(--dark); border-color: var(--dark); color: var(--white); }
+.delivery-option-text { flex: 1; }
+.delivery-opt-title { font-size: 13px; font-weight: 500; }
+.delivery-opt-sub { font-size: 11px; color: var(--muted); }
+.delivery-opt-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem; color: var(--gold); font-weight: 700;
+}
+
+.form-row { margin-bottom: 16px; }
+.form-label {
+  display: block;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 6px;
+}
+.form-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem; font-weight: 300;
+  padding: 11px 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  border-radius: var(--radius);
+}
+.form-input:focus { border-color: var(--gold); background: var(--white); }
+.form-input::placeholder { color: var(--muted); }
+
+.date-display {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 11px 14px;
+  font-size: 0.9rem; color: var(--muted);
+  border-radius: var(--radius); min-height: 42px;
+}
+.date-display.filled { color: var(--text); border-color: rgba(184,146,42,0.4); background: var(--white); }
+
+.chair-selector {
+  display: flex; align-items: center;
+  border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+}
+.chair-btn {
+  width: 42px; height: 42px;
+  background: var(--bg); border: none;
+  color: var(--muted); font-size: 1.2rem;
+  cursor: pointer; transition: all 0.2s;
+  flex-shrink: 0;
+}
+.chair-btn:hover { background: var(--bg2); color: var(--text); }
+.chair-count {
+  flex: 1; text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; font-weight: 400;
+  color: var(--gold); background: var(--white);
+  border: none;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  padding: 8px;
+}
+
+.avail-bar-wrap { margin: 8px 0 0; }
+.avail-bar-info {
+  display: flex; justify-content: space-between;
+  font-size: 11px; color: var(--muted); margin-bottom: 5px;
+}
+.avail-bar { height: 3px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.avail-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--gold));
+  border-radius: 99px; transition: width 0.4s;
+}
+
+/* PRICE SUMMARY */
+.price-summary {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px; margin: 20px 0;
+}
+.price-row {
+  display: flex; justify-content: space-between;
+  font-size: 0.875rem; padding: 4px 0;
+  color: var(--muted);
+}
+.price-row.delivery-row { color: var(--text); }
+.price-row.total {
+  border-top: 1px solid var(--border);
+  margin-top: 8px; padding-top: 10px;
+  font-weight: 500; color: var(--text);
+}
+.price-val-total {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem; color: var(--gold);
+}
+
+.btn-book {
+  width: 100%;
+  background: var(--dark); border: none;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500;
+  letter-spacing: 2px; text-transform: uppercase;
+  padding: 16px; cursor: pointer;
+  transition: all 0.3s; border-radius: var(--radius);
+}
+.btn-book:hover:not(:disabled) { background: var(--gold); }
+.btn-book:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+
+.form-hint {
+  font-size: 11px; color: var(--muted);
+  text-align: center; margin-top: 10px;
+  line-height: 1.6;
+}
+
+/* ── MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(26,22,16,0.7);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000; padding: 24px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.modal-overlay.active { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--white);
+  border-radius: 10px;
+  padding: 48px 40px;
+  max-width: 440px; width: 100%;
+  text-align: center;
+  transform: translateY(20px); transition: transform 0.3s;
+  border: 1px solid var(--border);
+}
+.modal-overlay.active .modal { transform: translateY(0); }
+.modal-icon { font-size: 2.5rem; margin-bottom: 16px; }
+.modal h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem; font-weight: 400;
+  margin-bottom: 8px;
+}
+.modal p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 24px; }
+.modal-detail {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px; margin-bottom: 24px;
+  text-align: left;
+}
+.modal-detail-row {
+  display: flex; justify-content: space-between;
+  padding: 6px 0; border-bottom: 1px solid var(--border);
+  font-size: 0.875rem;
+}
+.modal-detail-row:last-child { border-bottom: none; }
+.modal-detail-key { color: var(--muted); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+.modal-detail-val { color: var(--dark); font-weight: 500; }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 30px; left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--dark); color: var(--white);
+  padding: 12px 24px; border-radius: 4px;
+  font-size: 0.875rem; z-index: 2000;
+  opacity: 0; transition: all 0.3s; white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.6);
+  padding: 48px 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px; flex-wrap: wrap;
+}
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem; font-weight: 400;
+  color: var(--white); letter-spacing: 3px;
+}
+.footer-logo span { color: var(--gold2); }
+.footer-info { font-size: 13px; line-height: 1.8; }
+.footer-right { text-align: right; }
+.footer-copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .hero-left { padding: 60px 32px; }
+  .products-grid { grid-template-columns: 1fr !important; }
+  .booking-grid { grid-template-columns: 1fr; }
+  .booking-form { position: static; }
+  .section { padding: 60px 24px; }
+  .delivery-banner { flex-direction: column; text-align: center; }
+  .delivery-left { flex-direction: column; text-align: center; }
+  footer { flex-direction: column; text-align: center; }
+  .footer-right { text-align: center; }
+  header { padding: 0 20px; }
+  .nav-btn:not(.nav-cta) { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">OSENA <span>·</span></div>
+  <nav class="header-nav">
+    <a href="#angebot" class="nav-btn">Angebot</a>
+    <a href="#buchen" class="nav-btn">Verfügbarkeit</a>
+    <a href="#buchen" class="nav-btn nav-cta">Jetzt buchen</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Dresden · Partyverleih</div>
+    <h1>Verleih für<br>deinen<br><em>Anlass</em></h1>
+    <p class="hero-desc">Partyzubehör mieten in Dresden. Stühle und Warmhaltebehälter für jeden Anlass — schnell gebucht, pünktlich geliefert.</p>
+    <div class="hero-actions">
+      <a href="#buchen" class="btn-dark">Jetzt buchen</a>
+      <a href="#angebot" class="btn-outline">Angebot ansehen</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">50</div>
+        <div class="stat-label">Stühle gesamt</div>
+      </div>
+      <div>
+        <div class="stat-num">2€</div>
+        <div class="stat-label">Ab / Stuhl / Tag</div>
+      </div>
+      <div>
+        <div class="stat-num">−20%</div>
+        <div class="stat-label">Fr–So / Sa–Mo</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="chair-grid-preview" id="hero-preview"></div>
+  </div>
+</section>
+
+<!-- ANGEBOT -->
+<section class="section" id="angebot">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Unser Angebot</div>
+      <h2 class="section-title">Stühle & <em>Chafing Dishes</em><br>für jeden Anlass</h2>
+    </div>
+  </div>
+
+  <div class="products-grid" style="grid-template-columns:repeat(3,1fr);">
+    <!-- Eleganz-Stuhl -->
+    <div class="product-card">
+      <div class="product-card-img" style="padding:0;overflow:hidden;background:#f8f6f2;">
+        <img src="data:image/png;base64,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" alt="Eleganz-Stuhl" style="width:100%;height:100%;object-fit:contain;object-position:center;padding:20px;">
+        <div class="product-badge gold">Bestseller</div>
+      </div>
+      <div class="product-body">
+        <div class="product-name">Eleganz-Stuhl</div>
+        <div class="product-price-row">
+          <div class="product-price">2 €</div>
+          <div class="product-price-sub">/ Stuhl / 24 Std.</div>
+        </div>
+        <ul class="product-features">
+          <li>Hochwertiges Material, stabil & komfortabel</li>
+          <li>Indoor & Outdoor geeignet</li>
+          <li>Ideal für alle Feierlichkeiten</li>
+          <li>Belastbar bis 150 kg</li>
+          <li>Abholung ab 10:00 Uhr · Rückgabe bis 10:00 Uhr Folgetag</li>
+        </ul>
+        <div class="stock-badge">30 Stück verfügbar</div>
+      </div>
+    </div>
+
+    <!-- Klappstuhl -->
+    <div class="product-card">
+      <div class="product-card-img" style="padding:0;overflow:hidden;background:#f0ede6;">
+        <img src="data:image/png;base64,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" alt="Weißer Klappstuhl" style="width:100%;height:100%;object-fit:contain;object-position:center;padding:20px;">
+        <div class="product-badge">Neu im Sortiment</div>
+      </div>
+      <div class="product-body">
+        <div class="product-name">Weißer Klappstuhl</div>
+        <div class="product-price-row">
+          <div class="product-price">2 €</div>
+          <div class="product-price-sub">/ Stuhl / 24 Std.</div>
+        </div>
+        <ul class="product-features">
+          <li>Weißes Gestell — elegant & zeitlos</li>
+          <li>Platzsparend klappbar</li>
+          <li>Perfekt für Gartenfeiern & Outdoor-Events</li>
+          <li>Belastbar bis 204 kg</li>
+          <li>Abholung ab 10:00 Uhr · Rückgabe bis 10:00 Uhr Folgetag</li>
+        </ul>
+        <div class="stock-badge">20 Stück verfügbar</div>
+      </div>
+    </div>
+
+    <!-- Chafing Dish -->
+    <div class="product-card">
+      <div class="product-card-img" style="background:#f5f0e8;flex-direction:column;gap:8px;">
+        <div style="font-size:3rem;">🍲</div>
+        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);">Chafing Dish</div>
+        <div class="product-badge">7 Sets</div>
+      </div>
+      <div class="product-body">
+        <div class="product-name">Chafing Dish Set</div>
+        <div class="product-price-row">
+          <div class="product-price">10 €</div>
+          <div class="product-price-sub">/ Set / 24 Std.</div>
+        </div>
+        <div style="font-size:11px;color:var(--gold);margin-bottom:12px;">+ 1,50 € je Brennpaste (2 Stk. empfohlen)</div>
+        <ul class="product-features">
+          <li>Warmhaltebehälter aus Edelstahl</li>
+          <li>Inkl. Wasserrahmen & Deckel</li>
+          <li>Für Buffets, Feiern & Events</li>
+        </ul>
+        <!-- Einlagen-Auswahl -->
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+          <div style="font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Einlage wählen</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div onclick="selectChaConfig('full')" id="cfg-full" style="border:1px solid var(--border);border-radius:5px;padding:8px 10px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:10px;">
+              <div style="display:flex;gap:3px;flex-shrink:0;">
+                <div style="width:22px;height:22px;background:var(--gold-light);border:1px solid var(--gold);border-radius:3px;"></div>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:12px;font-weight:500;color:var(--text);">1/1 — Ein großer Behälter</div>
+                <div style="font-size:10px;color:var(--muted);">Suppe, Braten, Pasta · 1 Set</div>
+              </div>
+            </div>
+            <div onclick="selectChaConfig('half')" id="cfg-half" style="border:1px solid var(--border);border-radius:5px;padding:8px 10px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:10px;">
+              <div style="display:flex;gap:3px;flex-shrink:0;">
+                <div style="width:10px;height:22px;background:var(--gold-light);border:1px solid var(--gold);border-radius:2px;"></div>
+                <div style="width:10px;height:22px;background:var(--gold-light);border:1px solid var(--gold);border-radius:2px;"></div>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:12px;font-weight:500;color:var(--text);">2× 1/2 — Zwei halbe Behälter</div>
+                <div style="font-size:10px;color:var(--muted);">2 Beilagen · max. 1 Doppel-Set</div>
+              </div>
+            </div>
+            <div onclick="selectChaConfig('third')" id="cfg-third" style="border:1px solid var(--border);border-radius:5px;padding:8px 10px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:10px;">
+              <div style="display:flex;gap:3px;flex-shrink:0;">
+                <div style="width:6px;height:22px;background:var(--gold-light);border:1px solid var(--gold);border-radius:2px;"></div>
+                <div style="width:6px;height:22px;background:var(--gold-light);border:1px solid var(--gold);border-radius:2px;"></div>
+                <div style="width:6px;height:22px;background:var(--gold-light);border:1px solid var(--gold);border-radius:2px;"></div>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:12px;font-weight:500;color:var(--text);">3× 1/3 — Drei kleine Behälter</div>
+                <div style="font-size:10px;color:var(--muted);">Saucen, Salate · max. 1 Set</div>
+              </div>
+            </div>
+          </div>
+          <div id="chafing-config-hint" style="font-size:11px;color:var(--muted);margin-top:8px;display:none;line-height:1.5;padding:7px 10px;background:var(--bg);border-radius:4px;border-left:2px solid var(--gold);"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px;">
+    <div class="delivery-banner" style="flex-direction:column;align-items:flex-start;gap:12px;">
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div class="delivery-icon">🚚</div>
+        <div>
+          <div class="delivery-title">Lieferung & Abholung</div>
+          <div class="delivery-sub">An- & Ablieferung innerhalb Dresden</div>
+        </div>
+      </div>
+      <div style="padding-left:72px;">
+        <div class="delivery-price">59 €</div>
+        <div class="delivery-price-sub">Pauschal inkl. Hin- & Rückfahrt</div>
+      </div>
+    </div>
+    <div class="delivery-banner" style="flex-direction:column;align-items:flex-start;gap:12px;background:var(--bg2);border:1px solid var(--border);">
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div class="delivery-icon" style="background:rgba(26,22,16,0.08);">📍</div>
+        <div>
+          <div class="delivery-title" style="color:var(--dark);">Selbst Abholen</div>
+          <div class="delivery-sub" style="color:var(--muted);">Kostenlos — direkt bei uns</div>
+        </div>
+      </div>
+      <div style="padding-left:72px;">
+        <div style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--dark);font-weight:400;">Am Kohlenplatz 10</div>
+        <div style="font-size:12px;color:var(--muted);">01099 Dresden · nach Vereinbarung</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUCHUNG -->
+<section class="booking-section" id="buchen">
+  <div class="booking-inner">
+    <div class="section-tag">Verfügbarkeit & Buchung</div>
+    <h2 class="section-title">Jetzt <em>buchen</em></h2>
+
+    <div class="booking-grid">
+
+      <!-- LINKE SEITE: Kalender + Inventar -->
+      <div>
+        <div class="cal-wrap">
+          <div class="cal-header">
+            <button class="cal-nav" id="prev-month">‹</button>
+            <div class="cal-month-title" id="cal-month-title">April 2026</div>
+            <button class="cal-nav" id="next-month">›</button>
+          </div>
+          <div class="cal-days-header">
+            <div class="cal-day-name">Mo</div>
+            <div class="cal-day-name">Di</div>
+            <div class="cal-day-name">Mi</div>
+            <div class="cal-day-name">Do</div>
+            <div class="cal-day-name">Fr</div>
+            <div class="cal-day-name">Sa</div>
+            <div class="cal-day-name">So</div>
+          </div>
+          <div class="cal-grid" id="cal-grid"></div>
+          <div class="cal-legend">
+            <div class="cal-legend-item"><div class="cal-legend-dot" style="background:rgba(45,106,79,0.15);border-color:rgba(45,106,79,0.4)"></div>Verfügbar</div>
+            <div class="cal-legend-item"><div class="cal-legend-dot" style="background:rgba(181,119,10,0.12);border-color:rgba(181,119,10,0.5)"></div>Begrenzt</div>
+            <div class="cal-legend-item"><div class="cal-legend-dot" style="background:rgba(139,32,32,0.1);border-color:rgba(139,32,32,0.4)"></div>Ausgebucht</div>
+          </div>
+        </div>
+
+        <!-- INVENTAR -->
+        <div class="inventory-wrap">
+          <div class="inv-title">Verfügbarkeit</div>
+          <div class="inv-date-label" id="inv-date-label">Wählen Sie ein Datum</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px;">
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:16px;text-align:center;">
+              <div style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:6px;">Eleganz-Stühle</div>
+              <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:var(--gold);line-height:1;" id="inv-num-eleganz">30</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:4px;">von 30 frei</div>
+            </div>
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:16px;text-align:center;">
+              <div style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:6px;">Klappstühle</div>
+              <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:var(--gold);line-height:1;" id="inv-num-klapp">20</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:4px;">von 20 frei</div>
+            </div>
+          </div>
+          <div style="margin-top:12px;padding:10px 14px;background:rgba(184,146,42,0.08);border:1px solid rgba(184,146,42,0.2);border-radius:4px;font-size:12px;color:var(--muted);">
+            ⏰ Abholung ab 10:00 Uhr · Rückgabe bis 10:00 Uhr Folgetag · Jede angefangene 24 Std. = 1 Miettag
+          </div>
+        </div>
+      </div>
+
+      <!-- BUCHUNGSFORMULAR -->
+      <div class="booking-form">
+        <div class="form-title">Buchung</div>
+        <div class="form-subtitle">Unverbindliche Anfrage</div>
+
+        <!-- Datum -->
+        <div class="form-row">
+          <label class="form-label">Abholdatum <span style="font-weight:400;color:var(--gold);">ab 10:00 Uhr</span></label>
+          <div class="date-display" id="display-from">Datum im Kalender wählen</div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Rückgabe <span style="font-weight:400;color:var(--gold);">bis 10:00 Uhr Folgetag</span></label>
+          <div class="date-display" id="display-to">Datum im Kalender wählen</div>
+        </div>
+        <div id="weekend-hint" style="display:none;background:rgba(45,106,79,0.08);border:1px solid rgba(45,106,79,0.3);border-radius:5px;padding:9px 14px;font-size:12px;color:var(--green);margin-bottom:8px;">
+          🎉 <strong>Wochenendrabatt aktiv!</strong> Fr–So oder Sa–Mo — 20% auf alle Mietartikel
+        </div>
+
+        <!-- Eleganz-Stühle -->
+        <div class="form-row">
+          <label class="form-label" style="display:flex;justify-content:space-between;">
+            <span>🪑 Eleganz-Stühle</span>
+            <span style="color:var(--gold);font-weight:400;">max. 30 Stk</span>
+          </label>
+          <div class="chair-selector">
+            <button class="chair-btn" id="chair-minus-e">−</button>
+            <div class="chair-count" id="chair-count-e">0</div>
+            <button class="chair-btn" id="chair-plus-e">+</button>
+          </div>
+          <div class="avail-bar-wrap" id="avail-wrap-e" style="display:none">
+            <div class="avail-bar-info">
+              <span id="avail-text-e">30 verfügbar</span>
+              <span id="avail-pct-e">100%</span>
+            </div>
+            <div class="avail-bar"><div class="avail-fill" id="avail-fill-e" style="width:100%"></div></div>
+          </div>
+        </div>
+
+        <!-- Weiße Klappstühle -->
+        <div class="form-row">
+          <label class="form-label" style="display:flex;justify-content:space-between;">
+            <span>🪑 Weiße Klappstühle</span>
+            <span style="color:var(--gold);font-weight:400;">max. 20 Stk</span>
+          </label>
+          <div class="chair-selector">
+            <button class="chair-btn" id="chair-minus-k">−</button>
+            <div class="chair-count" id="chair-count-k">0</div>
+            <button class="chair-btn" id="chair-plus-k">+</button>
+          </div>
+          <div class="avail-bar-wrap" id="avail-wrap-k" style="display:none">
+            <div class="avail-bar-info">
+              <span id="avail-text-k">20 verfügbar</span>
+              <span id="avail-pct-k">100%</span>
+            </div>
+            <div class="avail-bar"><div class="avail-fill" id="avail-fill-k" style="width:100%"></div></div>
+          </div>
+        </div>
+
+        <!-- Chafing Dishes -->
+        <div class="form-row">
+          <label class="form-label">🍲 Chafing Dishes</label>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+
+            <!-- 1/1 -->
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 12px;display:flex;align-items:center;gap:12px;">
+              <div style="display:flex;gap:3px;flex-shrink:0;">
+                <div style="width:20px;height:20px;background:var(--gold-light);border:1px solid var(--gold);border-radius:3px;"></div>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:12px;font-weight:500;color:var(--text);">1/1 — Großer Behälter</div>
+                <div style="font-size:10px;color:var(--muted);">max. 7 · 10 €/Set</div>
+              </div>
+              <div style="display:flex;align-items:center;border:1px solid var(--border);border-radius:4px;overflow:hidden;">
+                <button class="chair-btn" style="width:32px;height:32px;font-size:1rem;" onclick="changeCha('full',-1)">−</button>
+                <div style="min-width:32px;text-align:center;font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--gold);background:var(--white);padding:0 4px;border-left:1px solid var(--border);border-right:1px solid var(--border);" id="cha-count-full">0</div>
+                <button class="chair-btn" style="width:32px;height:32px;font-size:1rem;" onclick="changeCha('full',1)">+</button>
+              </div>
+            </div>
+
+            <!-- 2x 1/2 -->
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 12px;display:flex;align-items:center;gap:12px;">
+              <div style="display:flex;gap:3px;flex-shrink:0;">
+                <div style="width:9px;height:20px;background:var(--gold-light);border:1px solid var(--gold);border-radius:2px;"></div>
+                <div style="width:9px;height:20px;background:var(--gold-light);border:1px solid var(--gold);border-radius:2px;"></div>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:12px;font-weight:500;color:var(--text);">2× 1/2 — Zwei halbe Behälter</div>
+                <div style="font-size:10px;color:var(--muted);">max. 2 Sets · 10 €/Set</div>
+              </div>
+              <div style="display:flex;align-items:center;border:1px solid var(--border);border-radius:4px;overflow:hidden;">
+                <button class="chair-btn" style="width:32px;height:32px;font-size:1rem;" onclick="changeCha('half',-1)">−</button>
+                <div style="min-width:32px;text-align:center;font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--gold);background:var(--white);padding:0 4px;border-left:1px solid var(--border);border-right:1px solid var(--border);" id="cha-count-half">0</div>
+                <button class="chair-btn" style="width:32px;height:32px;font-size:1rem;" onclick="changeCha('half',1)">+</button>
+              </div>
+            </div>
+
+            <!-- 3x 1/3 -->
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 12px;display:flex;align-items:center;gap:12px;">
+              <div style="display:flex;gap:3px;flex-shrink:0;">
+                <div style="width:5px;height:20px;background:var(--gold-light);border:1px solid var(--gold);border-radius:2px;"></div>
+                <div style="width:5px;height:20px;background:var(--gold-light);border:1px solid var(--gold);border-radius:2px;"></div>
+                <div style="width:5px;height:20px;background:var(--gold-light);border:1px solid var(--gold);border-radius:2px;"></div>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:12px;font-weight:500;color:var(--text);">3× 1/3 — Drei kleine Behälter</div>
+                <div style="font-size:10px;color:var(--muted);">max. 1 Set · 10 €/Set</div>
+              </div>
+              <div style="display:flex;align-items:center;border:1px solid var(--border);border-radius:4px;overflow:hidden;">
+                <button class="chair-btn" style="width:32px;height:32px;font-size:1rem;" onclick="changeCha('third',-1)">−</button>
+                <div style="min-width:32px;text-align:center;font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--gold);background:var(--white);padding:0 4px;border-left:1px solid var(--border);border-right:1px solid var(--border);" id="cha-count-third">0</div>
+                <button class="chair-btn" style="width:32px;height:32px;font-size:1rem;" onclick="changeCha('third',1)">+</button>
+              </div>
+            </div>
+
+            <!-- Brennpaste -->
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 12px;display:flex;align-items:center;gap:12px;">
+              <div style="font-size:1.1rem;flex-shrink:0;">🔥</div>
+              <div style="flex:1;">
+                <div style="font-size:12px;font-weight:500;color:var(--text);">Brennpaste</div>
+                <div style="font-size:10px;color:var(--muted);">1,50 €/Stk. · 2 pro Set empfohlen</div>
+              </div>
+              <div style="display:flex;align-items:center;border:1px solid var(--border);border-radius:4px;overflow:hidden;">
+                <button class="chair-btn" style="width:32px;height:32px;font-size:1rem;" onclick="changePaste(-1)">−</button>
+                <div style="min-width:32px;text-align:center;font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--gold);background:var(--white);padding:0 4px;border-left:1px solid var(--border);border-right:1px solid var(--border);" id="paste-count">0</div>
+                <button class="chair-btn" style="width:32px;height:32px;font-size:1rem;" onclick="changePaste(1)">+</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Abholung / Lieferung -->
+        <div class="form-row">
+          <label class="form-label">Abholung oder Lieferung?</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div class="delivery-option active" id="pickup-toggle" onclick="selectTransport('pickup')" style="flex-direction:column;align-items:center;text-align:center;padding:14px 10px;">
+              <div style="font-size:1.4rem;margin-bottom:4px;">📍</div>
+              <div class="delivery-opt-title">Selbst abholen</div>
+              <div class="delivery-opt-sub">Am Kohlenplatz 10<br>01099 Dresden</div>
+              <div style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--green);font-weight:700;margin-top:4px;">kostenlos</div>
+            </div>
+            <div class="delivery-option" id="delivery-toggle" onclick="selectTransport('delivery')" style="flex-direction:column;align-items:center;text-align:center;padding:14px 10px;">
+              <div style="font-size:1.4rem;margin-bottom:4px;">🚚</div>
+              <div class="delivery-opt-title">Lieferung & Abholung</div>
+              <div class="delivery-opt-sub">Innerhalb Dresden</div>
+              <div class="delivery-opt-price" style="margin-top:4px;">+59 €</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lieferzeit (nur bei Lieferung) -->
+        <div id="delivery-time-fields" style="display:none;">
+          <div style="background:rgba(184,146,42,0.07);border:1px solid rgba(184,146,42,0.2);border-radius:6px;padding:14px 16px;margin-bottom:16px;">
+            <div style="font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">🚚 Lieferzeiten</div>
+
+            <div class="form-row" style="margin-bottom:12px;">
+              <label class="form-label">Lieferadresse <span style="color:#c0392b;">*</span></label>
+              <input type="text" class="form-input" id="input-address" placeholder="Straße, Hausnummer, 01... Dresden">
+              <div style="font-size:11px;color:var(--muted);margin-top:4px;">📍 Wir kommen mit dem Transporter — bitte vollständige Adresse angeben.</div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div class="form-row" style="margin-bottom:0;">
+                <label class="form-label">Lieferzeit <span style="color:#c0392b;">*</span></label>
+                <select class="form-input" id="input-delivery-time">
+                  <option value="">Uhrzeit wählen</option>
+                  <option value="10:00–12:00">10:00 – 12:00 Uhr</option>
+                  <option value="12:00–14:00">12:00 – 14:00 Uhr</option>
+                  <option value="14:00–16:00">14:00 – 16:00 Uhr</option>
+                  <option value="16:00–18:00">16:00 – 18:00 Uhr</option>
+                  <option value="18:00–20:00">18:00 – 20:00 Uhr</option>
+                </select>
+                <div style="font-size:10px;color:var(--muted);margin-top:3px;">Früheste Lieferung 10:00 Uhr</div>
+              </div>
+              <div class="form-row" style="margin-bottom:0;">
+                <label class="form-label">Abholung ab <span style="color:#c0392b;">*</span></label>
+                <select class="form-input" id="input-pickup-time">
+                  <option value="">Uhrzeit wählen</option>
+                  <option value="08:00–10:00">08:00 – 10:00 Uhr</option>
+                  <option value="10:00–12:00">10:00 – 12:00 Uhr</option>
+                  <option value="12:00–14:00">12:00 – 14:00 Uhr</option>
+                  <option value="14:00–16:00">14:00 – 16:00 Uhr</option>
+                  <option value="16:00–18:00">16:00 – 18:00 Uhr</option>
+                  <option value="18:00–19:00">18:00 – 19:00 Uhr</option>
+                  <option value="19:00–20:00">19:00 – 20:00 Uhr</option>
+                  <option value="20:00–21:00">20:00 – 21:00 Uhr</option>
+                </select>
+                <div style="font-size:10px;color:var(--muted);margin-top:3px;">Abholung bis max. 21:00 Uhr</div>
+              </div>
+            </div>
+            <div style="font-size:11px;color:var(--muted);margin-top:10px;line-height:1.6;">
+              ℹ️ Lieferung ab <strong>10:00 Uhr</strong>. Jede angefangene 24 Std. = 1 Miettag — Abholung nach 10:00 Uhr des Folgetages zählt als neuer Tag.
+            </div>
+          </div>
+        </div>
+
+        <!-- Selbstabholung Hinweis (nur bei Abholung) -->
+        <div id="pickup-info-fields" style="display:block;">
+          <div style="background:rgba(45,106,79,0.06);border:1px solid rgba(45,106,79,0.2);border-radius:6px;padding:14px 16px;margin-bottom:16px;">
+            <div style="font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:8px;">📍 Selbstabholung</div>
+            <div style="font-size:13px;color:var(--text);line-height:1.8;">
+              <strong>Am Kohlenplatz 10, 01099 Dresden</strong><br>
+              Abholung ab <strong>10:00 Uhr</strong><br>
+              Rückgabe bis <strong>10:00 Uhr</strong> am Folgetag<br>
+              <span style="font-size:11px;color:var(--muted);">Jede angefangene 24 Std. zählt als voller Miettag.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kontakt -->
+        <div class="form-row">
+          <label class="form-label">Ihr Name</label>
+          <input type="text" class="form-input" id="input-name" placeholder="Vor- und Nachname">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Telefon / E-Mail</label>
+          <input type="text" class="form-input" id="input-contact" placeholder="Für Rückfragen">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Veranstaltungsart</label>
+          <input type="text" class="form-input" id="input-event" placeholder="z.B. Hochzeit, Geburtstag...">
+        </div>
+
+        <!-- Sonstiges -->
+        <div class="form-row">
+          <label class="form-label">Sonstige Hinweise</label>
+          <textarea class="form-input" id="input-notes" rows="3" placeholder="z.B. Gartenverein Sonnenschein, Eingang hinter dem Tor links, Ansprechpartner: Herr Müller..." style="resize:vertical;line-height:1.6;"></textarea>
+        </div>
+
+        <!-- Preisübersicht -->
+        <div class="price-summary" id="price-summary">
+          <div class="price-row" id="ps-row-e" style="display:none"><span>🪑 Eleganz-Stühle</span><span id="ps-eleganz">–</span></div>
+          <div class="price-row" id="ps-row-k" style="display:none"><span>🪑 Klappstühle</span><span id="ps-klapp">–</span></div>
+          <div class="price-row" id="ps-row-cha" style="display:none"><span>🍲 Chafing Dishes</span><span id="ps-chafing">–</span></div>
+          <div class="price-row" id="ps-row-paste" style="display:none"><span>🔥 Brennpaste</span><span id="ps-paste">–</span></div>
+          <div class="price-row" id="ps-row-discount" style="display:none;color:var(--green);"><span>🎉 Wochenendrabatt −20%</span><span id="ps-discount">–</span></div>
+          <div class="price-row"><span>Zeitraum</span><span id="ps-days">–</span></div>
+          <div class="price-row delivery-row" id="ps-delivery-row" style="display:none"><span>🚚 Lieferung</span><span>59,00 €</span></div>
+          <div class="price-row total"><span>Gesamt</span><span class="price-val-total" id="ps-total">–</span></div>
+        </div>
+
+        <!-- DSGVO Checkbox -->
+        <div class="form-row">
+          <div style="background:rgba(181,119,10,0.07);border:1px solid rgba(181,119,10,0.25);border-radius:5px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--text);line-height:1.6;">
+            🧹 <strong>Reinigungshinweis:</strong> Alle gemieteten Artikel sind gereinigt und gepflegt. Wir bitten um saubere Rückgabe — Stühle abgewischt, Chafing Dishes ausgespült und getrocknet.
+          </div>
+          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:12px;color:var(--muted);line-height:1.5;">
+            <input type="checkbox" id="dsgvo-check" style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:var(--dark);cursor:pointer;" onchange="updateBookBtn()">
+            <span>Ich habe die <button type="button" onclick="openDsgvo(event)" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:12px;text-decoration:underline;padding:0;">Datenschutzerklärung</button> gelesen, stimme der Datenverarbeitung zu und bestätige die saubere Rückgabe der gemieteten Artikel.</span>
+          </label>
+        </div>
+
+        <button class="btn-book" id="btn-book" disabled>Jetzt verbindlich buchen</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">OSENA <span>·</span></div>
+    <div class="footer-info" style="margin-top:8px;">Partyverleih Dresden</div>
+  </div>
+  <div class="footer-info">
+    50 Stühle · 2 € / 24 Std.<br>
+    Chafing Dishes · 10 € / 24 Std.<br>
+    Lieferung & Abholung: 59 € pauschal
+  </div>
+  <div class="footer-right">
+    <div class="footer-info">Am Kohlenplatz 10<br>01099 Dresden</div>
+    <div style="margin-top:10px;display:flex;gap:16px;justify-content:flex-end;flex-wrap:wrap;">
+      <button onclick="openDsgvo()" style="background:none;border:none;color:rgba(255,255,255,0.4);font-size:12px;cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif;">Datenschutz</button>
+      <button onclick="openImpressum()" style="background:none;border:none;color:rgba(255,255,255,0.4);font-size:12px;cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif;">Impressum</button>
+    </div>
+    <div class="footer-copy" style="margin-top:8px;">© 2026 OSENA Partyverleih</div>
+  </div>
+</footer>
+
+<!-- BUCHUNGS-BESTÄTIGUNG MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-icon">✓</div>
+    <h3>Buchung bestätigt!</h3>
+    <p>Ihre Buchung ist verbindlich eingegangen.<br>Wir melden uns kurzfristig zur Bestätigung.</p>
+    <div class="modal-detail" id="modal-detail"></div>
+    <button class="btn-dark" onclick="closeModal()" style="width:100%">Schließen</button>
+  </div>
+</div>
+
+<!-- DATENSCHUTZ MODAL -->
+<div class="modal-overlay" id="dsgvo-modal" onclick="closeDsgvo(event)">
+  <div class="modal" style="max-width:560px;text-align:left;max-height:80vh;overflow-y:auto;">
+    <h3 style="margin-bottom:16px;font-size:1.4rem;">Datenschutzerklärung</h3>
+    <div style="font-size:0.875rem;color:var(--muted);line-height:1.8;">
+      <p style="margin-bottom:12px;"><strong style="color:var(--text);">Verantwortlicher</strong><br>
+      OSENA Partyverleih<br>Am Kohlenplatz 10, 01099 Dresden</p>
+
+      <p style="margin-bottom:12px;"><strong style="color:var(--text);">Welche Daten wir erheben</strong><br>
+      Bei einer Buchung erheben wir: Name, Telefonnummer / E-Mail-Adresse, Veranstaltungsart, Lieferadresse (falls gewählt) sowie sonstige von Ihnen freiwillig angegebene Informationen.</p>
+
+      <p style="margin-bottom:12px;"><strong style="color:var(--text);">Zweck der Verarbeitung</strong><br>
+      Ihre Daten werden ausschließlich zur Abwicklung Ihrer Buchung verwendet (Art. 6 Abs. 1 lit. b DSGVO – Vertragserfüllung). Wir geben Ihre Daten nicht an Dritte weiter.</p>
+
+      <p style="margin-bottom:12px;"><strong style="color:var(--text);">Speicherdauer</strong><br>
+      Buchungsdaten werden für die Dauer der gesetzlichen Aufbewahrungsfristen (i.d.R. 10 Jahre nach Handels- und Steuerrecht) gespeichert und anschließend gelöscht.</p>
+
+      <p style="margin-bottom:12px;"><strong style="color:var(--text);">Ihre Rechte</strong><br>
+      Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer Daten sowie das Recht auf Datenübertragbarkeit. Zur Ausübung Ihrer Rechte kontaktieren Sie uns bitte direkt.</p>
+
+      <p style="margin-bottom:0;"><strong style="color:var(--text);">Lokale Datenspeicherung</strong><br>
+      Diese Website speichert Buchungsdaten ausschließlich lokal in Ihrem Browser (localStorage). Es werden keine Daten an externe Server übertragen.</p>
+    </div>
+    <button class="btn-dark" onclick="closeDsgvo()" style="width:100%;margin-top:24px;">Schließen</button>
+  </div>
+</div>
+
+<!-- IMPRESSUM MODAL -->
+<div class="modal-overlay" id="impressum-modal" onclick="closeImpressum(event)">
+  <div class="modal" style="max-width:480px;text-align:left;">
+    <h3 style="margin-bottom:16px;font-size:1.4rem;">Impressum</h3>
+    <div style="font-size:0.875rem;color:var(--muted);line-height:1.9;">
+      <p style="margin-bottom:12px;"><strong style="color:var(--text);">Angaben gemäß § 5 TMG</strong><br>
+      OSENA Partyverleih<br>Am Kohlenplatz 10<br>01099 Dresden<br>Deutschland</p>
+
+      <p style="margin-bottom:12px;"><strong style="color:var(--text);">Kontakt</strong><br>
+      Kontakt auf Anfrage über das Buchungsformular.</p>
+
+      <p style="margin-bottom:0;"><strong style="color:var(--text);">Haftungshinweis</strong><br>
+      Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.</p>
+    </div>
+    <button class="btn-dark" onclick="closeImpressum()" style="width:100%;margin-top:24px;">Schließen</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════
+//  CONFIG
+// ══════════════════════════════
+const ELEGANZ_TOTAL = 30;
+const KLAPP_TOTAL = 20;
+const PRICE_PER_DAY = 2;
+const DELIVERY_FEE = 59;
+
+// ══════════════════════════════
+//  STATE
+// ══════════════════════════════
+let calYear, calMonth;
+let selectedFrom = null, selectedTo = null;
+let selectingFrom = true;
+let chairCountE = 0;
+let chairCountK = 0;
+let transportMode = 'pickup';
+// Chafing Dishes — separate Zähler je Einlagengröße
+const CHA_FULL_MAX = 7;   // 7x 1/1
+const CHA_HALF_MAX = 2;   // 2x Doppel-Set (2x 1/2)
+const CHA_THIRD_MAX = 1;  // 1x Set (3x 1/3)
+const CHA_PRICE = 10;
+const PASTE_PRICE = 1.50;
+let chaFull = 0;
+let chaHalf = 0;
+let chaThird = 0;
+let pasteCount = 0;
+
+// Lokales Datum als YYYY-MM-DD ohne UTC-Verschiebung
+function toLocalDateStr(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+// YYYY-MM-DD String zu lokalem Date-Objekt ohne UTC-Verschiebung
+function parseLocalDate(str) {
+  const [y, m, d] = str.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+function getBookings() {
+  return JSON.parse(localStorage.getItem("osena_bookings_v2") || "{}");
+}
+function saveBookings(b) {
+  localStorage.setItem("osena_bookings_v2", JSON.stringify(b));
+}
+function getKey(type, date) { return type + "_" + date; }
+function getBookedCount(type, date) {
+  const b = getBookings();
+  return b[getKey(type, date)] || 0;
+}
+function addBooking(type, from, to, chairs) {
+  const b = getBookings();
+  getDatesInRange(from, to).forEach(d => {
+    const k = getKey(type, d);
+    b[k] = (b[k] || 0) + chairs;
+  });
+  saveBookings(b);
+}
+function getTotal(type) { return type === 'eleganz' ? ELEGANZ_TOTAL : KLAPP_TOTAL; }
+function getAvailable(type, date) { return getTotal(type) - getBookedCount(type, date); }
+function getMinAvail(type, from, to) {
+  if (!from) return getTotal(type);
+  const dates = getDatesInRange(from, to || from);
+  return Math.min(...dates.map(d => getAvailable(type, d)));
+}
+function getDatesInRange(from, to) {
+  const dates = [], cur = new Date(from), end = new Date(to);
+  while (cur <= end) { dates.push(toLocalDateStr(cur)); cur.setDate(cur.getDate()+1); }
+  return dates;
+}
+
+// ══════════════════════════════
+//  TRANSPORT
+// ══════════════════════════════
+function selectTransport(mode) {
+  transportMode = mode;
+  document.getElementById('pickup-toggle').classList.toggle('active', mode === 'pickup');
+  document.getElementById('delivery-toggle').classList.toggle('active', mode === 'delivery');
+  document.getElementById('ps-delivery-row').style.display = mode === 'delivery' ? 'flex' : 'none';
+  document.getElementById('delivery-time-fields').style.display = mode === 'delivery' ? 'block' : 'none';
+  document.getElementById('pickup-info-fields').style.display = mode === 'pickup' ? 'block' : 'none';
+  updatePrice();
+  updateBookBtn();
+}
+
+// ══════════════════════════════
+//  CHAFING DISHES (Angebot-Seite Info)
+// ══════════════════════════════
+function selectChaConfig(cfg) {
+  ['full','half','third'].forEach(c => {
+    const el = document.getElementById('cfg-' + c);
+    if (el) { el.style.borderColor = 'var(--border)'; el.style.background = ''; }
+  });
+  const el = document.getElementById('cfg-' + cfg);
+  if (el) { el.style.borderColor = 'var(--dark)'; el.style.background = 'rgba(26,22,16,0.04)'; }
+  const hint = document.getElementById('chafing-config-hint');
+  const msgs = {
+    full: '1 Chafing Dish mit einem großen 1/1 GN-Behälter — ideal für eine Speise. Bis zu 7 Sets buchbar.',
+    half: 'Für 2× 1/2 Einlagen wird 1 Doppel-Set benötigt — 2 verschiedene Gerichte gleichzeitig. 2 Doppel-Sets verfügbar.',
+    third: '1 Chafing Dish mit drei 1/3 GN-Einlagen — perfekt für Saucen und Beilagen. Nur 1 Set verfügbar.'
+  };
+  if (hint) { hint.style.display = 'block'; hint.textContent = msgs[cfg]; }
+}
+
+// ══════════════════════════════
+//  CHAFING DISHES (Buchungsformular)
+// ══════════════════════════════
+function changeCha(type, delta) {
+  const maxes = { full: CHA_FULL_MAX, half: CHA_HALF_MAX, third: CHA_THIRD_MAX };
+  const vars = { full: () => chaFull, half: () => chaHalf, third: () => chaThird };
+  const setters = {
+    full: v => { chaFull = v; document.getElementById('cha-count-full').textContent = v; },
+    half: v => { chaHalf = v; document.getElementById('cha-count-half').textContent = v; },
+    third: v => { chaThird = v; document.getElementById('cha-count-third').textContent = v; }
+  };
+  const cur = vars[type]();
+  const next = cur + delta;
+  if (next < 0) return;
+  if (next > maxes[type]) { showToast('Nur ' + maxes[type] + ' verfügbar!'); return; }
+  setters[type](next);
+  updatePrice(); updateBookBtn();
+}
+
+function changePaste(delta) {
+  const next = pasteCount + delta;
+  if (next < 0) return;
+  pasteCount = next;
+  document.getElementById('paste-count').textContent = pasteCount;
+  updatePrice(); updateBookBtn();
+}
+
+// ══════════════════════════════
+//  CALENDAR
+// ══════════════════════════════
+function initCal() {
+  const now = new Date();
+  calYear = now.getFullYear(); calMonth = now.getMonth();
+  renderCal();
+}
+
+function renderCal() {
+  const title = new Date(calYear, calMonth, 1).toLocaleDateString("de-DE", { month:"long", year:"numeric" });
+  document.getElementById("cal-month-title").textContent = title.charAt(0).toUpperCase() + title.slice(1);
+
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const offset = firstDay === 0 ? 6 : firstDay - 1;
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  const today = new Date(); today.setHours(0,0,0,0);
+  const grid = document.getElementById("cal-grid");
+  grid.innerHTML = "";
+
+  for (let i = 0; i < offset; i++) {
+    const e = document.createElement("div"); e.className = "cal-day empty"; grid.appendChild(e);
+  }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = new Date(calYear, calMonth, d);
+    const dateStr = toLocalDateStr(date);
+    // Show combined availability (min of both types that are being requested)
+    const availE = getAvailable('eleganz', dateStr);
+    const availK = getAvailable('klapp', dateStr);
+    const isPast = date < today;
+    // Calendar color: if either type fully booked show limited/full
+    const minAvail = Math.min(availE, availK);
+
+    const cell = document.createElement("div");
+    cell.className = "cal-day";
+
+    if (isPast) cell.classList.add("past");
+    else if (availE === 0 && availK === 0) cell.classList.add("full");
+    else if (availE <= 10 || availK <= 6) cell.classList.add("limited");
+    else cell.classList.add("available");
+
+    if (selectedFrom && selectedTo) {
+      const ds = parseLocalDate(selectedFrom), de = parseLocalDate(selectedTo);
+      if (date >= ds && date <= de) cell.classList.add("in-range");
+    }
+    if (selectedFrom && dateStr === selectedFrom) cell.classList.add("selected");
+    if (selectedTo && dateStr === selectedTo) cell.classList.add("selected");
+
+    cell.innerHTML = `<span class="cal-day-num">${d}</span>`;
+    if (!isPast && (availE > 0 || availK > 0)) cell.addEventListener("click", () => onDayClick(dateStr));
+    grid.appendChild(cell);
+  }
+}
+
+function onDayClick(dateStr) {
+  if (selectingFrom || !selectedFrom) {
+    selectedFrom = dateStr; selectedTo = null; selectingFrom = false;
+  } else {
+    if (dateStr < selectedFrom) { selectedTo = selectedFrom; selectedFrom = dateStr; }
+    else selectedTo = dateStr;
+    selectingFrom = true;
+  }
+  updateFormDates(); renderCal();
+  updateInventory(selectedFrom); updateAvailBars(); updatePrice(); updateBookBtn();
+}
+
+function updateFormDates() {
+  const fromEl = document.getElementById("display-from");
+  const toEl = document.getElementById("display-to");
+  if (selectedFrom) { fromEl.textContent = formatDate(selectedFrom); fromEl.classList.add("filled"); }
+  else { fromEl.textContent = "Datum im Kalender wählen"; fromEl.classList.remove("filled"); }
+  if (selectedTo) { toEl.textContent = formatDate(selectedTo); toEl.classList.add("filled"); }
+  else { toEl.textContent = selectedFrom ? "Enddatum wählen" : "Datum im Kalender wählen"; toEl.classList.toggle("filled", !!selectedFrom); }
+}
+
+function formatDate(str) {
+  // Datum direkt aus dem String bauen ohne UTC-Verschiebung
+  const [y, m, d] = str.split('-').map(Number);
+  const date = new Date(y, m - 1, d);
+  return date.toLocaleDateString("de-DE", { weekday:"short", day:"2-digit", month:"short", year:"numeric" });
+}
+
+function getDays() {
+  if (!selectedFrom) return 0;
+  if (!selectedTo) return 1;
+  const from = parseLocalDate(selectedFrom);
+  const to = parseLocalDate(selectedTo);
+  const calDays = Math.max(1, Math.round((to - from) / 86400000));
+  if (transportMode === 'delivery') {
+    const pickupVal = document.getElementById('input-pickup-time')?.value || '';
+    const pickupHour = pickupVal ? parseInt(pickupVal.split(':')[0]) : 10;
+    if (pickupHour > 10) return calDays + 1;
+    return calDays;
+  }
+  return calDays;
+}
+
+function updateAvailBars() {
+  // Eleganz
+  const wrapE = document.getElementById("avail-wrap-e");
+  if (!selectedFrom) { wrapE.style.display = "none"; }
+  else {
+    wrapE.style.display = "block";
+    const avail = getMinAvail('eleganz', selectedFrom, selectedTo || selectedFrom);
+    const pct = Math.round(avail / ELEGANZ_TOTAL * 100);
+    document.getElementById("avail-text-e").textContent = `${avail} von ${ELEGANZ_TOTAL} verfügbar`;
+    document.getElementById("avail-pct-e").textContent = pct + "%";
+    document.getElementById("avail-fill-e").style.width = pct + "%";
+    if (chairCountE > avail) { chairCountE = Math.max(0, avail); document.getElementById("chair-count-e").textContent = chairCountE; }
+  }
+  // Klapp
+  const wrapK = document.getElementById("avail-wrap-k");
+  if (!selectedFrom) { wrapK.style.display = "none"; }
+  else {
+    wrapK.style.display = "block";
+    const avail = getMinAvail('klapp', selectedFrom, selectedTo || selectedFrom);
+    const pct = Math.round(avail / KLAPP_TOTAL * 100);
+    document.getElementById("avail-text-k").textContent = `${avail} von ${KLAPP_TOTAL} verfügbar`;
+    document.getElementById("avail-pct-k").textContent = pct + "%";
+    document.getElementById("avail-fill-k").style.width = pct + "%";
+    if (chairCountK > avail) { chairCountK = Math.max(0, avail); document.getElementById("chair-count-k").textContent = chairCountK; }
+  }
+}
+
+function isWeekendBooking() {
+  if (!selectedFrom || !selectedTo) return false;
+  const from = parseLocalDate(selectedFrom);
+  const to = parseLocalDate(selectedTo);
+  const fromDay = from.getDay();
+  const toDay = to.getDay();
+  return (fromDay === 5 && toDay === 0) || (fromDay === 6 && toDay === 1);
+}
+
+function updatePrice() {
+  const days = getDays();
+  const weekend = isWeekendBooking();
+  const discount = weekend ? 0.20 : 0;
+
+  const chairCost = (chairCountE + chairCountK) * days * PRICE_PER_DAY;
+  const totalChaSets = chaFull + chaHalf + chaThird;
+  const chaCost = totalChaSets * days * CHA_PRICE;
+  const pasteCost = pasteCount * PASTE_PRICE;
+  const delivery = transportMode === 'delivery' ? DELIVERY_FEE : 0;
+
+  const subtotal = chairCost + chaCost + pasteCost;
+  const discountBase = chairCost + chaCost; // Brennpaste kein Leihartikel
+  const discountAmount = discountBase * discount;
+  const total = subtotal - discountAmount + delivery;
+
+  document.getElementById("ps-row-e").style.display = chairCountE > 0 ? 'flex' : 'none';
+  document.getElementById("ps-row-k").style.display = chairCountK > 0 ? 'flex' : 'none';
+  document.getElementById("ps-row-cha").style.display = totalChaSets > 0 ? 'flex' : 'none';
+  document.getElementById("ps-row-paste").style.display = pasteCount > 0 ? 'flex' : 'none';
+  document.getElementById("ps-row-discount").style.display = weekend ? 'flex' : 'none';
+  document.getElementById("weekend-hint").style.display = weekend ? 'block' : 'none';
+
+  document.getElementById("ps-eleganz").textContent = `${chairCountE} × ${days} × 2€ = ${(chairCountE * days * 2).toFixed(2).replace('.',',')} €`;
+  document.getElementById("ps-klapp").textContent = `${chairCountK} × ${days} × 2€ = ${(chairCountK * days * 2).toFixed(2).replace('.',',')} €`;
+
+  let chaDesc = [];
+  if (chaFull > 0) chaDesc.push(`${chaFull}× 1/1`);
+  if (chaHalf > 0) chaDesc.push(`${chaHalf}× 2×½`);
+  if (chaThird > 0) chaDesc.push(`${chaThird}× 3×⅓`);
+  document.getElementById("ps-chafing").textContent = `${chaDesc.join(', ')} × ${days} × 10€ = ${chaCost.toFixed(2).replace('.',',')} €`;
+  document.getElementById("ps-paste").textContent = `${pasteCount} Stk. × 1,50€ = ${pasteCost.toFixed(2).replace('.',',')} €`;
+  document.getElementById("ps-discount").textContent = `−${discountAmount.toFixed(2).replace('.',',')} €`;
+  document.getElementById("ps-days").textContent = days + (days === 1 ? " Tag (24 Std.)" : " Tage (je 24 Std.)") + (weekend ? " 🎉 Wochenendrabatt" : "");
+  document.getElementById("ps-total").textContent = total > 0 ? total.toFixed(2).replace(".", ",") + " €" : "–";
+}
+
+function updateInventory(dateStr) {
+  if (dateStr) {
+    document.getElementById("inv-date-label").textContent = formatDate(dateStr) + " ab 10:00 Uhr";
+    const availE = getAvailable('eleganz', dateStr);
+    const availK = getAvailable('klapp', dateStr);
+    document.getElementById("inv-num-eleganz").textContent = availE;
+    document.getElementById("inv-num-eleganz").style.color = availE === 0 ? 'var(--red)' : availE <= 10 ? 'var(--amber)' : 'var(--gold)';
+    document.getElementById("inv-num-klapp").textContent = availK;
+    document.getElementById("inv-num-klapp").style.color = availK === 0 ? 'var(--red)' : availK <= 6 ? 'var(--amber)' : 'var(--gold)';
+  } else {
+    document.getElementById("inv-num-eleganz").textContent = "30";
+    document.getElementById("inv-num-klapp").textContent = "20";
+  }
+}
+
+function updateBookBtn() {
+  const name = document.getElementById("input-name").value.trim();
+  const contact = document.getElementById("input-contact").value.trim();
+  const dsgvo = document.getElementById("dsgvo-check").checked;
+  const hasChairs = (chairCountE + chairCountK) > 0;
+  const availE = getMinAvail('eleganz', selectedFrom, selectedTo || selectedFrom);
+  const availK = getMinAvail('klapp', selectedFrom, selectedTo || selectedFrom);
+  const validE = chairCountE <= availE;
+  const validK = chairCountK <= availK;
+
+  let deliveryOk = true;
+  if (transportMode === 'delivery') {
+    const address = document.getElementById("input-address").value.trim();
+    const delivTime = document.getElementById("input-delivery-time").value;
+    const pickTime = document.getElementById("input-pickup-time").value;
+    deliveryOk = address.length > 0 && delivTime !== '' && pickTime !== '';
+  }
+
+  document.getElementById("btn-book").disabled = !(selectedFrom && name && contact && hasChairs && validE && validK && dsgvo && deliveryOk);
+}
+
+// ── Eleganz counter
+document.getElementById("chair-minus-e").addEventListener("click", () => {
+  if (chairCountE > 0) { chairCountE--; document.getElementById("chair-count-e").textContent = chairCountE; updatePrice(); updateBookBtn(); }
+});
+document.getElementById("chair-plus-e").addEventListener("click", () => {
+  const avail = selectedFrom ? getMinAvail('eleganz', selectedFrom, selectedTo || selectedFrom) : ELEGANZ_TOTAL;
+  if (chairCountE < avail) { chairCountE++; document.getElementById("chair-count-e").textContent = chairCountE; updatePrice(); updateBookBtn(); }
+  else showToast("Nur " + avail + " Eleganz-Stühle verfügbar!");
+});
+
+// ── Klappstuhl counter
+document.getElementById("chair-minus-k").addEventListener("click", () => {
+  if (chairCountK > 0) { chairCountK--; document.getElementById("chair-count-k").textContent = chairCountK; updatePrice(); updateBookBtn(); }
+});
+document.getElementById("chair-plus-k").addEventListener("click", () => {
+  const avail = selectedFrom ? getMinAvail('klapp', selectedFrom, selectedTo || selectedFrom) : KLAPP_TOTAL;
+  if (chairCountK < avail) { chairCountK++; document.getElementById("chair-count-k").textContent = chairCountK; updatePrice(); updateBookBtn(); }
+  else showToast("Nur " + avail + " Klappstühle verfügbar!");
+});
+
+["input-name","input-contact","input-event","input-address","input-notes"].forEach(id => {
+  document.getElementById(id).addEventListener("input", updateBookBtn);
+});
+["input-delivery-time","input-pickup-time"].forEach(id => {
+  document.getElementById(id).addEventListener("change", () => { updatePrice(); updateBookBtn(); });
+});
+
+// ── Submit
+document.getElementById("btn-book").addEventListener("click", () => {
+  const name = document.getElementById("input-name").value.trim();
+  const contact = document.getElementById("input-contact").value.trim();
+  const event = document.getElementById("input-event").value.trim();
+  const notes = document.getElementById("input-notes").value.trim();
+  const days = getDays();
+  const totalChaSets = chaFull + chaHalf + chaThird;
+  const chaCost = totalChaSets * days * CHA_PRICE;
+  const pasteCost = pasteCount * PASTE_PRICE;
+  const delivery = transportMode === 'delivery' ? DELIVERY_FEE : 0;
+  const weekend = isWeekendBooking();
+  const subtotal = (chairCountE + chairCountK) * days * PRICE_PER_DAY + chaCost + pasteCost;
+  const discountBase = (chairCountE + chairCountK) * days * PRICE_PER_DAY + chaCost;
+  const discountAmount = weekend ? discountBase * 0.20 : 0;
+  const total = (subtotal - discountAmount + delivery).toFixed(2).replace(".", ",");
+
+  let chaLines = '';
+  if (chaFull > 0) chaLines += `<div class="modal-detail-row"><span class="modal-detail-key">Chafing 1/1</span><span class="modal-detail-val">${chaFull} Set${chaFull>1?'s':''}</span></div>`;
+  if (chaHalf > 0) chaLines += `<div class="modal-detail-row"><span class="modal-detail-key">Chafing 2×½</span><span class="modal-detail-val">${chaHalf} Doppel-Set${chaHalf>1?'s':''}</span></div>`;
+  if (chaThird > 0) chaLines += `<div class="modal-detail-row"><span class="modal-detail-key">Chafing 3×⅓</span><span class="modal-detail-val">${chaThird} Set${chaThird>1?'s':''}</span></div>`;
+  if (pasteCount > 0) chaLines += `<div class="modal-detail-row"><span class="modal-detail-key">Brennpaste</span><span class="modal-detail-val">${pasteCount} Stück</span></div>`;
+
+  const address = transportMode === 'delivery' ? document.getElementById("input-address").value.trim() : '';
+  const delivTime = transportMode === 'delivery' ? document.getElementById("input-delivery-time").value : '';
+  const pickupTime = transportMode === 'delivery' ? document.getElementById("input-pickup-time").value : '';
+
+  if (chairCountE > 0) addBooking('eleganz', selectedFrom, selectedTo || selectedFrom, chairCountE);
+  if (chairCountK > 0) addBooking('klapp', selectedFrom, selectedTo || selectedFrom, chairCountK);
+
+  const transportLine = transportMode === 'delivery'
+    ? `<div class="modal-detail-row"><span class="modal-detail-key">Lieferadresse</span><span class="modal-detail-val">${address}</span></div>
+       <div class="modal-detail-row"><span class="modal-detail-key">Lieferung am</span><span class="modal-detail-val">${formatDate(selectedFrom)} · ${delivTime} Uhr</span></div>
+       <div class="modal-detail-row"><span class="modal-detail-key">Abholung ab</span><span class="modal-detail-val">${selectedTo ? formatDate(selectedTo) : formatDate(selectedFrom)} · ${pickupTime} Uhr</span></div>`
+    : `<div class="modal-detail-row"><span class="modal-detail-key">Abholung</span><span class="modal-detail-val">Am Kohlenplatz 10 · ab 10:00 Uhr</span></div>
+       <div class="modal-detail-row"><span class="modal-detail-key">Rückgabe</span><span class="modal-detail-val">${selectedTo ? formatDate(selectedTo) : formatDate(selectedFrom)} · bis 10:00 Uhr</span></div>`;
+
+  document.getElementById("modal-detail").innerHTML = `
+    <div class="modal-detail-row"><span class="modal-detail-key">Name</span><span class="modal-detail-val">${name}</span></div>
+    ${chairCountE > 0 ? `<div class="modal-detail-row"><span class="modal-detail-key">Eleganz-Stühle</span><span class="modal-detail-val">${chairCountE} Stück</span></div>` : ''}
+    ${chairCountK > 0 ? `<div class="modal-detail-row"><span class="modal-detail-key">Klappstühle</span><span class="modal-detail-val">${chairCountK} Stück</span></div>` : ''}
+    ${chaLines}
+    ${weekend ? `<div class="modal-detail-row"><span class="modal-detail-key">🎉 Wochenendrabatt</span><span class="modal-detail-val" style="color:var(--green);">−20% (−${discountAmount.toFixed(2).replace('.',',')} €)</span></div>` : ''}
+    ${transportLine}
+    ${notes ? `<div class="modal-detail-row"><span class="modal-detail-key">Hinweise</span><span class="modal-detail-val" style="max-width:180px;word-break:break-word;">${notes}</span></div>` : ''}
+    <div class="modal-detail-row"><span class="modal-detail-key">Gesamt</span><span class="modal-detail-val">${total} €</span></div>
+  `;
+
+  document.getElementById("modal").classList.add("active");
+
+  // Reset
+  selectedFrom = null; selectedTo = null; selectingFrom = true;
+  chairCountE = 0; chairCountK = 0;
+  transportMode = 'pickup';
+  document.getElementById("chair-count-e").textContent = "0";
+  document.getElementById("chair-count-k").textContent = "0";
+  document.getElementById("pickup-toggle").classList.add("active");
+  document.getElementById("delivery-toggle").classList.remove("active");
+  document.getElementById("delivery-time-fields").style.display = "none";
+  document.getElementById("pickup-info-fields").style.display = "block";
+  document.getElementById("ps-delivery-row").style.display = "none";
+  chaFull = 0; chaHalf = 0; chaThird = 0; pasteCount = 0;
+  document.getElementById('cha-count-full').textContent = '0';
+  document.getElementById('cha-count-half').textContent = '0';
+  document.getElementById('cha-count-third').textContent = '0';
+  document.getElementById('paste-count').textContent = '0';
+  document.getElementById("dsgvo-check").checked = false;
+  document.getElementById("input-delivery-time").value = "";
+  document.getElementById("input-pickup-time").value = "";
+  ["input-name","input-contact","input-event","input-address","input-notes"].forEach(id => document.getElementById(id).value = "");
+  updateFormDates(); renderCal(); updatePrice(); updateAvailBars(); updateBookBtn();
+});
+
+function closeModal() { document.getElementById("modal").classList.remove("active"); }
+
+function openDsgvo(e) { if(e) e.stopPropagation(); document.getElementById("dsgvo-modal").classList.add("active"); }
+function closeDsgvo(e) { if(e && e.target !== document.getElementById("dsgvo-modal")) return; document.getElementById("dsgvo-modal").classList.remove("active"); }
+function openImpressum() { document.getElementById("impressum-modal").classList.add("active"); }
+function closeImpressum(e) { if(e && e.target !== document.getElementById("impressum-modal")) return; document.getElementById("impressum-modal").classList.remove("active"); }
+
+document.getElementById("prev-month").addEventListener("click", () => {
+  calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; } renderCal();
+});
+document.getElementById("next-month").addEventListener("click", () => {
+  calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; } renderCal();
+});
+
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 2500);
+}
+
+// Hero preview - numbers instead of emojis
+(function() {
+  const grid = document.getElementById("hero-preview");
+  for (let i = 0; i < 20; i++) {
+    const c = document.createElement("div");
+    c.className = "chair-preview-card" + (i >= 15 ? " folding" : "");
+    c.style.cssText = "font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--gold);";
+    c.textContent = i < 15 ? (i+1) : (i-14);
+    grid.appendChild(c);
+  }
+})();
+
+// Init
+initCal();
+updatePrice();
+updateInventory(null);
+</script>
+</body>
+</html>
