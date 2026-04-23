@@ -1268,7 +1268,22 @@ footer {
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- STORNIERUNG -->
+<section style="background:var(--bg);border-top:1px solid var(--border);padding:60px 40px;">
+  <div style="max-width:500px;margin:0 auto;">
+    <div class="section-tag">Buchung stornieren</div>
+    <h2 class="section-title" style="margin-bottom:8px;">Stornierung <em>online</em></h2>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.7;">
+      Gib deinen 6-stelligen Buchungscode ein um deine Buchung zu stornieren.<br>
+      <strong>Stornogebühren:</strong> Kostenlos bis 14 Tage vorher · 50% bei 7–14 Tagen · 100% unter 7 Tagen.
+    </p>
+    <div style="display:flex;gap:8px;">
+      <input type="text" id="cancel-code-input" class="form-input" placeholder="Buchungscode z.B. AB12CD" maxlength="6" style="text-transform:uppercase;letter-spacing:3px;font-size:1.1rem;text-align:center;flex:1;">
+      <button id="cancel-submit-btn" class="btn-dark" onclick="submitCancellation()" style="white-space:nowrap;padding:11px 24px;">Stornieren</button>
+    </div>
+    <div id="cancel-result"></div>
+  </div>
+</section>
 <footer>
   <div>
     <div class="footer-logo">OSENA <span>·</span></div>
@@ -1349,6 +1364,32 @@ footer {
 
 <script>
 // ══════════════════════════════
+//  SUPABASE CONFIG
+//  ⚠️ Trage hier deinen eigenen anon Key ein!
+// ══════════════════════════════
+const SUPABASE_URL = 'https://ikydjavfavlprhfhsiqi.supabase.co';
+const SUPABASE_KEY = 'DEIN_ANON_KEY_HIER'; // ← deinen Key eintragen!
+
+async function sbFetch(path, options = {}) {
+  const res = await fetch(SUPABASE_URL + '/rest/v1/' + path, {
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': options.prefer || 'return=representation',
+      ...options.headers
+    },
+    ...options
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error('Supabase Fehler: ' + err);
+  }
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+}
+
+// ══════════════════════════════
 //  CONFIG
 // ══════════════════════════════
 const ELEGANZ_TOTAL = 30;
@@ -1389,36 +1430,76 @@ function parseLocalDate(str) {
   const [y, m, d] = str.split('-').map(Number);
   return new Date(y, m - 1, d);
 }
-function getBookings() {
-  return JSON.parse(localStorage.getItem("osena_bookings_v2") || "{}");
+// ══════════════════════════════
+//  AVAILABILITY CACHE (from Supabase)
+// ══════════════════════════════
+let availCache = {}; // { "eleganz_2026-05-01": 30, ... }
+
+async function loadAvailability() {
+  try {
+    const data = await sbFetch('bookings?select=date_from,date_to,chairs_eleganz,chairs_klapp,cha_full,cha_half,cha_third&status=neq.cancelled');
+    availCache = {};
+    if (data) {
+      data.forEach(b => {
+        getDatesInRange(b.date_from, b.date_to).forEach(d => {
+          availCache['eleganz_' + d] = (availCache['eleganz_' + d] || 0) + (b.chairs_eleganz || 0);
+          availCache['klapp_' + d] = (availCache['klapp_' + d] || 0) + (b.chairs_klapp || 0);
+        });
+      });
+    }
+  } catch(e) {
+    console.warn('Verfügbarkeit konnte nicht geladen werden:', e);
+  }
 }
-function saveBookings(b) {
-  localStorage.setItem("osena_bookings_v2", JSON.stringify(b));
-}
-function getKey(type, date) { return type + "_" + date; }
+
 function getBookedCount(type, date) {
-  const b = getBookings();
-  return b[getKey(type, date)] || 0;
+  return availCache[type + '_' + date] || 0;
 }
-function addBooking(type, from, to, chairs) {
-  const b = getBookings();
-  getDatesInRange(from, to).forEach(d => {
-    const k = getKey(type, d);
-    b[k] = (b[k] || 0) + chairs;
-  });
-  saveBookings(b);
-}
+
 function getTotal(type) { return type === 'eleganz' ? ELEGANZ_TOTAL : KLAPP_TOTAL; }
-function getAvailable(type, date) { return getTotal(type) - getBookedCount(type, date); }
+function getAvailable(type, date) { return Math.max(0, getTotal(type) - getBookedCount(type, date)); }
 function getMinAvail(type, from, to) {
   if (!from) return getTotal(type);
-  const dates = getDatesInRange(from, to || from);
-  return Math.min(...dates.map(d => getAvailable(type, d)));
+  return Math.min(...getDatesInRange(from, to || from).map(d => getAvailable(type, d)));
 }
 function getDatesInRange(from, to) {
-  const dates = [], cur = new Date(from), end = new Date(to);
+  const dates = [], cur = parseLocalDate(from), end = parseLocalDate(to || from);
   while (cur <= end) { dates.push(toLocalDateStr(cur)); cur.setDate(cur.getDate()+1); }
   return dates;
+}
+
+// Buchung in Supabase speichern
+async function saveBookingToSupabase(bookingData) {
+  return await sbFetch('bookings', {
+    method: 'POST',
+    prefer: 'return=representation',
+    body: JSON.stringify(bookingData)
+  });
+}
+
+// Stornierung in Supabase
+async function cancelBookingInSupabase(bookingCode) {
+  const today = toLocalDateStr(new Date());
+  // Buchung laden
+  const rows = await sbFetch('bookings?booking_code=eq.' + bookingCode + '&status=eq.active');
+  if (!rows || rows.length === 0) throw new Error('Buchung nicht gefunden oder bereits storniert.');
+  const b = rows[0];
+
+  // Stornogebühr berechnen
+  const daysUntil = Math.ceil((parseLocalDate(b.date_from) - new Date()) / 86400000);
+  let fee = 0;
+  let feeText = 'Kostenlos';
+  if (daysUntil < 7) { fee = b.total_price; feeText = '100% (weniger als 7 Tage)'; }
+  else if (daysUntil < 14) { fee = b.total_price * 0.5; feeText = '50% (7–14 Tage)'; }
+
+  // Status auf cancelled setzen
+  await sbFetch('bookings?id=eq.' + b.id, {
+    method: 'PATCH',
+    prefer: 'return=minimal',
+    body: JSON.stringify({ status: 'cancelled', cancel_reason: 'Kunde storniert online' })
+  });
+
+  return { booking: b, fee, feeText };
 }
 
 // ══════════════════════════════
@@ -1715,7 +1796,11 @@ document.getElementById("chair-plus-k").addEventListener("click", () => {
 });
 
 // ── Submit
-document.getElementById("btn-book").addEventListener("click", () => {
+document.getElementById("btn-book").addEventListener("click", async () => {
+  const btn = document.getElementById("btn-book");
+  btn.disabled = true;
+  btn.textContent = "Wird gespeichert...";
+
   const name = document.getElementById("input-name").value.trim();
   const contact = document.getElementById("input-contact").value.trim();
   const event = document.getElementById("input-event").value.trim();
@@ -1729,20 +1814,51 @@ document.getElementById("btn-book").addEventListener("click", () => {
   const subtotal = (chairCountE + chairCountK) * days * PRICE_PER_DAY + chaCost + pasteCost;
   const discountBase = (chairCountE + chairCountK) * days * PRICE_PER_DAY + chaCost;
   const discountAmount = weekend ? discountBase * 0.20 : 0;
-  const total = (subtotal - discountAmount + delivery).toFixed(2).replace(".", ",");
+  const totalNum = subtotal - discountAmount + delivery;
+  const total = totalNum.toFixed(2).replace(".", ",");
+
+  const address = transportMode === 'delivery' ? document.getElementById("input-address").value.trim() : '';
+  const delivTime = transportMode === 'delivery' ? document.getElementById("input-delivery-time").value : '';
+  const pickupTime = transportMode === 'delivery' ? document.getElementById("input-pickup-time").value : '';
+
+  // 6-stelligen Buchungscode generieren
+  const bookingCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+
+  // Buchung in Supabase speichern
+  try {
+    await saveBookingToSupabase({
+      name, contact, event_type: event, notes,
+      date_from: selectedFrom,
+      date_to: selectedTo || selectedFrom,
+      chairs_eleganz: chairCountE,
+      chairs_klapp: chairCountK,
+      cha_full: chaFull,
+      cha_half: chaHalf,
+      cha_third: chaThird,
+      paste_count: pasteCount,
+      transport: transportMode,
+      address, delivery_time: delivTime, pickup_time: pickupTime,
+      total_price: totalNum,
+      discount: discountAmount,
+      status: 'active',
+      booking_code: bookingCode
+    });
+
+    // Verfügbarkeit neu laden
+    await loadAvailability();
+
+  } catch(e) {
+    showToast('Fehler beim Speichern — bitte nochmal versuchen.');
+    btn.disabled = false;
+    btn.textContent = "Jetzt verbindlich buchen";
+    return;
+  }
 
   let chaLines = '';
   if (chaFull > 0) chaLines += `<div class="modal-detail-row"><span class="modal-detail-key">Chafing 1/1</span><span class="modal-detail-val">${chaFull} Set${chaFull>1?'s':''}</span></div>`;
   if (chaHalf > 0) chaLines += `<div class="modal-detail-row"><span class="modal-detail-key">Chafing 2×½</span><span class="modal-detail-val">${chaHalf} Doppel-Set${chaHalf>1?'s':''}</span></div>`;
   if (chaThird > 0) chaLines += `<div class="modal-detail-row"><span class="modal-detail-key">Chafing 3×⅓</span><span class="modal-detail-val">${chaThird} Set${chaThird>1?'s':''}</span></div>`;
   if (pasteCount > 0) chaLines += `<div class="modal-detail-row"><span class="modal-detail-key">Brennpaste</span><span class="modal-detail-val">${pasteCount} Stück</span></div>`;
-
-  const address = transportMode === 'delivery' ? document.getElementById("input-address").value.trim() : '';
-  const delivTime = transportMode === 'delivery' ? document.getElementById("input-delivery-time").value : '';
-  const pickupTime = transportMode === 'delivery' ? document.getElementById("input-pickup-time").value : '';
-
-  if (chairCountE > 0) addBooking('eleganz', selectedFrom, selectedTo || selectedFrom, chairCountE);
-  if (chairCountK > 0) addBooking('klapp', selectedFrom, selectedTo || selectedFrom, chairCountK);
 
   const transportLine = transportMode === 'delivery'
     ? `<div class="modal-detail-row"><span class="modal-detail-key">Lieferadresse</span><span class="modal-detail-val">${address}</span></div>
@@ -1760,6 +1876,13 @@ document.getElementById("btn-book").addEventListener("click", () => {
     ${transportLine}
     ${notes ? `<div class="modal-detail-row"><span class="modal-detail-key">Hinweise</span><span class="modal-detail-val" style="max-width:180px;word-break:break-word;">${notes}</span></div>` : ''}
     <div class="modal-detail-row"><span class="modal-detail-key">Gesamt</span><span class="modal-detail-val">${total} €</span></div>
+    <div class="modal-detail-row" style="background:rgba(184,146,42,0.08);border-radius:4px;padding:8px;margin-top:4px;">
+      <span class="modal-detail-key">🔑 Buchungscode</span>
+      <span class="modal-detail-val" style="font-size:1.3rem;letter-spacing:3px;color:var(--gold);">${bookingCode}</span>
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-top:6px;line-height:1.6;">
+      ⚠️ Bitte Buchungscode notieren — wird für Stornierung benötigt!
+    </div>
   `;
 
   document.getElementById("modal").classList.add("active");
@@ -1784,6 +1907,7 @@ document.getElementById("btn-book").addEventListener("click", () => {
   document.getElementById("input-delivery-time").value = "";
   document.getElementById("input-pickup-time").value = "";
   ["input-name","input-contact","input-event","input-address","input-notes"].forEach(id => document.getElementById(id).value = "");
+  btn.textContent = "Jetzt verbindlich buchen";
   updateFormDates(); renderCal(); updatePrice(); updateAvailBars(); updateBookBtn();
 });
 
@@ -1793,6 +1917,31 @@ function openDsgvo(e) { if(e) e.stopPropagation(); document.getElementById("dsgv
 function closeDsgvo(e) { if(e && e.target !== document.getElementById("dsgvo-modal")) return; document.getElementById("dsgvo-modal").classList.remove("active"); }
 function openImpressum() { document.getElementById("impressum-modal").classList.add("active"); }
 function closeImpressum(e) { if(e && e.target !== document.getElementById("impressum-modal")) return; document.getElementById("impressum-modal").classList.remove("active"); }
+
+// Stornierung
+async function submitCancellation() {
+  const code = document.getElementById("cancel-code-input").value.trim().toUpperCase();
+  if (!code) { showToast("Bitte Buchungscode eingeben!"); return; }
+  const btn = document.getElementById("cancel-submit-btn");
+  btn.disabled = true; btn.textContent = "Prüfe...";
+  try {
+    const { booking: b, fee, feeText } = await cancelBookingInSupabase(code);
+    document.getElementById("cancel-result").innerHTML = `
+      <div style="background:rgba(45,106,79,0.08);border:1px solid rgba(45,106,79,0.3);border-radius:6px;padding:16px;margin-top:12px;">
+        <div style="font-weight:500;color:var(--green);margin-bottom:8px;">✅ Buchung storniert</div>
+        <div style="font-size:13px;color:var(--text);line-height:1.8;">
+          Buchung von <strong>${b.name}</strong> (${formatDate(b.date_from)}) wurde storniert.<br>
+          Stornogebühr: <strong>${feeText}</strong>${fee > 0 ? ` = ${fee.toFixed(2).replace('.',',')} €` : ''}<br>
+          ${fee > 0 ? '<span style="font-size:11px;color:var(--muted);">Bitte überweise den Betrag auf unser Konto.</span>' : ''}
+        </div>
+      </div>`;
+    await loadAvailability(); renderCal(); updateInventory(null);
+  } catch(e) {
+    document.getElementById("cancel-result").innerHTML = `
+      <div style="color:#c0392b;font-size:13px;margin-top:8px;">❌ ${e.message}</div>`;
+  }
+  btn.disabled = false; btn.textContent = "Stornieren";
+}
 
 document.getElementById("prev-month").addEventListener("click", () => {
   calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; } renderCal();
@@ -1807,7 +1956,7 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove("show"), 2500);
 }
 
-// Hero preview - numbers instead of emojis
+// Hero preview
 (function() {
   const grid = document.getElementById("hero-preview");
   for (let i = 0; i < 20; i++) {
@@ -1820,9 +1969,13 @@ function showToast(msg) {
 })();
 
 // Init
-initCal();
-updatePrice();
-updateInventory(null);
+async function init() {
+  await loadAvailability();
+  initCal();
+  updatePrice();
+  updateInventory(null);
+}
+init();
 </script>
 </body>
 </html>
