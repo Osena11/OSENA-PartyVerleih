@@ -75,25 +75,30 @@ header {
 }
 .nav-cta:hover { background: var(--gold) !important; color: var(--white) !important; }
 
-/* ── HERO ── */
 .hero {
   min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   padding-top: 64px;
+  padding-bottom: 60px;
+  position: relative;
 }
 .hero-left {
   display: flex; flex-direction: column;
+  align-items: center;
   justify-content: center;
-  padding: 80px 60px 80px 80px;
-  position: relative;
+  padding: 80px 40px;
+  max-width: 700px;
+  width: 100%;
 }
-.hero-left::after {
-  content: '';
-  position: absolute; top: 0; right: 0; bottom: 0;
-  width: 1px;
-  background: linear-gradient(to bottom, transparent, var(--border), transparent);
-}
+.hero-left::after { display: none; }
+.hero-tag { justify-content: center; }
+.hero-desc { text-align: center; margin-left: auto; margin-right: auto; }
+.hero-actions { justify-content: center; }
+.hero-stats { justify-content: center; }
 .hero-tag {
   display: inline-flex; align-items: center; gap: 8px;
   font-size: 11px; font-weight: 500;
@@ -751,9 +756,7 @@ footer {
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
-  .hero { grid-template-columns: 1fr; }
-  .hero-right { display: none; }
-  .hero-left { padding: 60px 32px; }
+  .hero-left { padding: 60px 24px; }
   .products-grid { grid-template-columns: 1fr !important; }
   .booking-grid { grid-template-columns: 1fr; }
   .booking-form { position: static; }
@@ -803,9 +806,6 @@ footer {
         <div class="stat-label">Fr–So / Sa–Mo</div>
       </div>
     </div>
-  </div>
-  <div class="hero-right">
-    <div class="chair-grid-preview" id="hero-preview"></div>
   </div>
 </section>
 
@@ -1368,9 +1368,12 @@ footer {
 //  ⚠️ Trage hier deinen eigenen anon Key ein!
 // ══════════════════════════════
 const SUPABASE_URL = 'https://ikydjavfavlprhfhsiqi.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_q6j4qe6tkY9lX5n9pv0dLg_IalGCGGc'; // ← deinen Key eintragen!
+const SUPABASE_KEY = 'DEIN_ANON_KEY_HIER'; // ← deinen Key eintragen!
 
 async function sbFetch(path, options = {}) {
+  if (SUPABASE_KEY === 'DEIN_ANON_KEY_HIER' || !SUPABASE_KEY) {
+    throw new Error('Supabase Key nicht eingetragen — bitte in GitHub eintragen!');
+  }
   const res = await fetch(SUPABASE_URL + '/rest/v1/' + path, {
     headers: {
       'apikey': SUPABASE_KEY,
@@ -1751,7 +1754,8 @@ function updateBookBtn() {
   const name = document.getElementById("input-name").value.trim();
   const contact = document.getElementById("input-contact").value.trim();
   const dsgvo = document.getElementById("dsgvo-check").checked;
-  const hasChairs = (chairCountE + chairCountK) > 0;
+  // Mindestens 1 Artikel — Stühle ODER Chafing Dishes
+  const hasItems = (chairCountE + chairCountK + chaFull + chaHalf + chaThird) > 0;
   const availE = getMinAvail('eleganz', selectedFrom, selectedTo || selectedFrom);
   const availK = getMinAvail('klapp', selectedFrom, selectedTo || selectedFrom);
   const validE = chairCountE <= availE;
@@ -1765,7 +1769,7 @@ function updateBookBtn() {
     deliveryOk = address.length > 0 && delivTime !== '' && pickTime !== '';
   }
 
-  document.getElementById("btn-book").disabled = !(selectedFrom && name && contact && hasChairs && validE && validK && dsgvo && deliveryOk);
+  document.getElementById("btn-book").disabled = !(selectedFrom && name && contact && hasItems && validE && validK && dsgvo && deliveryOk);
 }
 
 // ── Eleganz counter
@@ -1955,18 +1959,6 @@ function showToast(msg) {
   t.textContent = msg; t.classList.add("show");
   setTimeout(() => t.classList.remove("show"), 2500);
 }
-
-// Hero preview
-(function() {
-  const grid = document.getElementById("hero-preview");
-  for (let i = 0; i < 20; i++) {
-    const c = document.createElement("div");
-    c.className = "chair-preview-card" + (i >= 15 ? " folding" : "");
-    c.style.cssText = "font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--gold);";
-    c.textContent = i < 15 ? (i+1) : (i-14);
-    grid.appendChild(c);
-  }
-})();
 
 // Init
 async function init() {
