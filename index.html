@@ -1257,7 +1257,7 @@ footer {
           </div>
           <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:12px;color:var(--muted);line-height:1.5;">
             <input type="checkbox" id="dsgvo-check" style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:var(--dark);cursor:pointer;" onchange="updateBookBtn()">
-            <span>Ich habe die <button type="button" onclick="openDsgvo(event)" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:12px;text-decoration:underline;padding:0;">Datenschutzerklärung</button> gelesen, stimme der Datenverarbeitung zu und bestätige die saubere Rückgabe der gemieteten Artikel.</span>
+            <span>Ich habe die <button type="button" onclick="openDsgvo(event)" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:12px;text-decoration:underline;padding:0;">Datenschutzerklärung</button> und die <button type="button" onclick="openAgb()" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:12px;text-decoration:underline;padding:0;">AGB</button> gelesen, stimme der Datenverarbeitung zu und bestätige die saubere Rückgabe der gemieteten Artikel.</span>
           </label>
         </div>
 
@@ -1289,15 +1289,11 @@ footer {
     <div class="footer-logo">OSENA <span>·</span></div>
     <div class="footer-info" style="margin-top:8px;">Partyverleih Dresden</div>
   </div>
-  <div class="footer-info">
-    50 Stühle · 2 € / 24 Std.<br>
-    Chafing Dishes · 10 € / 24 Std.<br>
-    Lieferung & Abholung: 59 € pauschal
-  </div>
   <div class="footer-right">
     <div class="footer-info">Am Kohlenplatz 10<br>01099 Dresden</div>
     <div style="margin-top:10px;display:flex;gap:16px;justify-content:flex-end;flex-wrap:wrap;">
       <button onclick="openDsgvo()" style="background:none;border:none;color:rgba(255,255,255,0.4);font-size:12px;cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif;">Datenschutz</button>
+      <button onclick="openAgb()" style="background:none;border:none;color:rgba(255,255,255,0.4);font-size:12px;cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif;">AGB</button>
       <button onclick="openImpressum()" style="background:none;border:none;color:rgba(255,255,255,0.4);font-size:12px;cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif;">Impressum</button>
     </div>
     <div class="footer-copy" style="margin-top:8px;">© 2026 OSENA Partyverleih</div>
@@ -1315,28 +1311,93 @@ footer {
   </div>
 </div>
 
+<!-- AGB MODAL -->
+<div class="modal-overlay" id="agb-modal" onclick="closeAgb(event)">
+  <div class="modal" style="max-width:580px;text-align:left;max-height:85vh;overflow-y:auto;">
+    <h3 style="margin-bottom:16px;font-size:1.4rem;">Allgemeine Geschäftsbedingungen</h3>
+    <div style="font-size:0.875rem;color:var(--muted);line-height:1.9;">
+
+      <p style="margin-bottom:14px;"><strong style="color:var(--text);">§ 1 Geltungsbereich</strong><br>
+      Diese Allgemeinen Geschäftsbedingungen gelten für alle Mietverträge zwischen OSENA Partyverleih (Robert Idemudia, Am Kohlenplatz 10, 01099 Dresden) und dem Mieter.</p>
+
+      <p style="margin-bottom:14px;"><strong style="color:var(--text);">§ 2 Vertragsabschluss</strong><br>
+      Eine Buchung über die Website stellt ein verbindliches Angebot des Mieters dar. Der Vertrag kommt mit der Buchungsbestätigung und dem zugewiesenen Buchungscode zustande.</p>
+
+      <p style="margin-bottom:14px;"><strong style="color:var(--text);">§ 3 Mietzeit & Übergabe</strong><br>
+      Die Mietzeit beginnt ab der vereinbarten Abholzeit (10:00 Uhr) und endet mit der Rückgabe (10:00 Uhr des Folgetages). Jede angefangene 24-Stunden-Periode wird als voller Miettag berechnet. Bei Lieferung gelten die individuell vereinbarten Zeiten.</p>
+
+      <p style="margin-bottom:14px;"><strong style="color:var(--text);">§ 4 Preise & Zahlung</strong><br>
+      Alle Preise sind Endpreise gemäß § 19 UStG (Kleinunternehmerregelung). Die Online-Zahlung erfolgt über unseren Zahlungsdienstleister und unterstützt folgende Zahlungsmethoden: Kreditkarte, Debitkarte, Apple Pay sowie Google Pay. Bei kurzfristiger telefonischer Notfallbuchung ist auch eine Barzahlung bei Abholung möglich. Bei Lieferung wird zusätzlich eine Lieferpauschale von 59,00 € berechnet.</p>
+
+      <p style="margin-bottom:14px;"><strong style="color:var(--text);">§ 5 Wochenendrabatt</strong><br>
+      Bei Buchungen von Freitag bis Sonntag oder Samstag bis Montag wird ein Rabatt von 20% auf alle Mietartikel (ausgenommen Brennpaste und Liefergebühr) gewährt.</p>
+
+      <p style="margin-bottom:14px;"><strong style="color:var(--text);">§ 6 Stornierung</strong><br>
+      Stornierungen sind online über den Buchungscode möglich. Es gelten folgende Stornogebühren:<br>
+      • Mehr als 14 Tage vor Mietbeginn: kostenlos<br>
+      • 7 bis 14 Tage vor Mietbeginn: 50% des Mietpreises<br>
+      • Weniger als 7 Tage vor Mietbeginn: 100% des Mietpreises<br>
+      Die Liefergebühr ist von der Stornierung ausgenommen und wird nicht erstattet.</p>
+
+      <p style="margin-bottom:14px;"><strong style="color:var(--text);">§ 7 Sorgfaltspflicht & Reinigung</strong><br>
+      Der Mieter ist verpflichtet, die gemieteten Artikel pfleglich zu behandeln. Die Artikel sind gereinigt zurückzugeben — Stühle abgewischt, Chafing Dishes ausgespült und getrocknet. Bei unsachgemäßer Reinigung behält sich OSENA Partyverleih vor, eine Reinigungsgebühr in Rechnung zu stellen.</p>
+
+      <p style="margin-bottom:14px;"><strong style="color:var(--text);">§ 8 Beschädigungen & Haftung</strong><br>
+      Der Mieter haftet für alle während der Mietzeit entstandenen Schäden. Bei Beschädigungen oder Verlust wird der Wiederbeschaffungswert des jeweiligen Artikels in Rechnung gestellt. OSENA Partyverleih haftet nicht für Schäden, die durch unsachgemäße Nutzung entstehen.</p>
+
+      <p style="margin-bottom:14px;"><strong style="color:var(--text);">§ 9 Gerichtsstand</strong><br>
+      Gerichtsstand für alle Streitigkeiten aus diesem Vertragsverhältnis ist Dresden. Es gilt das Recht der Bundesrepublik Deutschland.</p>
+
+      <p style="margin-bottom:0;"><strong style="color:var(--text);">§ 10 Schlussbestimmungen</strong><br>
+      Sollten einzelne Bestimmungen dieser AGB unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt. Stand: April 2026.</p>
+
+    </div>
+    <button class="btn-dark" onclick="closeAgb()" style="width:100%;margin-top:24px;">Schließen</button>
+  </div>
+</div>
+
 <!-- DATENSCHUTZ MODAL -->
 <div class="modal-overlay" id="dsgvo-modal" onclick="closeDsgvo(event)">
-  <div class="modal" style="max-width:560px;text-align:left;max-height:80vh;overflow-y:auto;">
+  <div class="modal" style="max-width:580px;text-align:left;max-height:85vh;overflow-y:auto;">
     <h3 style="margin-bottom:16px;font-size:1.4rem;">Datenschutzerklärung</h3>
-    <div style="font-size:0.875rem;color:var(--muted);line-height:1.8;">
-      <p style="margin-bottom:12px;"><strong style="color:var(--text);">Verantwortlicher</strong><br>
-      OSENA Partyverleih<br>Am Kohlenplatz 10, 01099 Dresden</p>
+    <div style="font-size:0.875rem;color:var(--muted);line-height:1.9;">
 
-      <p style="margin-bottom:12px;"><strong style="color:var(--text);">Welche Daten wir erheben</strong><br>
-      Bei einer Buchung erheben wir: Name, Telefonnummer / E-Mail-Adresse, Veranstaltungsart, Lieferadresse (falls gewählt) sowie sonstige von Ihnen freiwillig angegebene Informationen.</p>
+      <p style="margin-bottom:14px;"><strong style="color:var(--text);">1. Verantwortlicher</strong><br>
+      Robert Idemudia<br>
+      OSENA Partyverleih<br>
+      Am Kohlenplatz 10<br>
+      01099 Dresden<br>
+      Deutschland<br>
+      E-Mail: info@osena-partyverleih.de</p>
 
-      <p style="margin-bottom:12px;"><strong style="color:var(--text);">Zweck der Verarbeitung</strong><br>
-      Ihre Daten werden ausschließlich zur Abwicklung Ihrer Buchung verwendet (Art. 6 Abs. 1 lit. b DSGVO – Vertragserfüllung). Wir geben Ihre Daten nicht an Dritte weiter.</p>
+      <p style="margin-bottom:14px;"><strong style="color:var(--text);">2. Welche Daten wir erheben</strong><br>
+      Bei einer Buchung erheben wir folgende personenbezogene Daten: Vor- und Nachname, Telefonnummer und/oder E-Mail-Adresse, Veranstaltungsart, Lieferadresse (falls Lieferung gewählt), Buchungsdatum und -zeitraum, gebuchte Artikel sowie den Gesamtpreis.</p>
 
-      <p style="margin-bottom:12px;"><strong style="color:var(--text);">Speicherdauer</strong><br>
-      Buchungsdaten werden für die Dauer der gesetzlichen Aufbewahrungsfristen (i.d.R. 10 Jahre nach Handels- und Steuerrecht) gespeichert und anschließend gelöscht.</p>
+      <p style="margin-bottom:14px;"><strong style="color:var(--text);">3. Zweck der Verarbeitung</strong><br>
+      Ihre Daten werden ausschließlich zur Abwicklung Ihrer Buchung verwendet. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung).</p>
 
-      <p style="margin-bottom:12px;"><strong style="color:var(--text);">Ihre Rechte</strong><br>
-      Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer Daten sowie das Recht auf Datenübertragbarkeit. Zur Ausübung Ihrer Rechte kontaktieren Sie uns bitte direkt.</p>
+      <p style="margin-bottom:14px;"><strong style="color:var(--text);">4. Zahlungsabwicklung via Stripe</strong><br>
+      Für die Online-Zahlung nutzen wir den Dienst Stripe (Stripe Payments Europe, Ltd., 1 Grand Canal Street Lower, Dublin 2, Irland). Bei der Zahlung werden Ihre Zahlungsdaten direkt an Stripe übermittelt. Wir erhalten und speichern zu keinem Zeitpunkt Ihre Kreditkartendaten. Stripe verarbeitet Ihre Daten gemäß der Stripe-Datenschutzrichtlinie: <span style="color:var(--gold);">stripe.com/de/privacy</span></p>
 
-      <p style="margin-bottom:0;"><strong style="color:var(--text);">Lokale Datenspeicherung</strong><br>
-      Diese Website speichert Buchungsdaten ausschließlich lokal in Ihrem Browser (localStorage). Es werden keine Daten an externe Server übertragen.</p>
+      <p style="margin-bottom:14px;"><strong style="color:var(--text);">5. Speicherdauer</strong><br>
+      Buchungsdaten werden für die Dauer der gesetzlichen Aufbewahrungsfristen gespeichert (i.d.R. 10 Jahre gemäß Handels- und Steuerrecht) und anschließend gelöscht.</p>
+
+      <p style="margin-bottom:14px;"><strong style="color:var(--text);">6. Weitergabe an Dritte</strong><br>
+      Ihre Daten werden nicht an Dritte weitergegeben, außer an Stripe zur Zahlungsabwicklung (siehe Punkt 4).</p>
+
+      <p style="margin-bottom:14px;"><strong style="color:var(--text);">7. Ihre Rechte</strong><br>
+      Sie haben das Recht auf:<br>
+      • Auskunft über Ihre gespeicherten Daten (Art. 15 DSGVO)<br>
+      • Berichtigung unrichtiger Daten (Art. 16 DSGVO)<br>
+      • Löschung Ihrer Daten (Art. 17 DSGVO)<br>
+      • Einschränkung der Verarbeitung (Art. 18 DSGVO)<br>
+      • Datenübertragbarkeit (Art. 20 DSGVO)<br>
+      • Widerspruch gegen die Verarbeitung (Art. 21 DSGVO)<br><br>
+      Zur Ausübung Ihrer Rechte wenden Sie sich bitte an: info@osena-partyverleih.de</p>
+
+      <p style="margin-bottom:0;"><strong style="color:var(--text);">8. Beschwerderecht</strong><br>
+      Sie haben das Recht, sich bei der zuständigen Datenschutzaufsichtsbehörde zu beschweren. Zuständig ist der Sächsische Datenschutzbeauftragte, Devrientstraße 5, 01067 Dresden.</p>
+
     </div>
     <button class="btn-dark" onclick="closeDsgvo()" style="width:100%;margin-top:24px;">Schließen</button>
   </div>
@@ -1348,10 +1409,17 @@ footer {
     <h3 style="margin-bottom:16px;font-size:1.4rem;">Impressum</h3>
     <div style="font-size:0.875rem;color:var(--muted);line-height:1.9;">
       <p style="margin-bottom:12px;"><strong style="color:var(--text);">Angaben gemäß § 5 TMG</strong><br>
-      OSENA Partyverleih<br>Am Kohlenplatz 10<br>01099 Dresden<br>Deutschland</p>
+      Robert Idemudia<br>
+      OSENA Partyverleih<br>
+      Am Kohlenplatz 10<br>
+      01099 Dresden<br>
+      Deutschland</p>
 
       <p style="margin-bottom:12px;"><strong style="color:var(--text);">Kontakt</strong><br>
-      Kontakt auf Anfrage über das Buchungsformular.</p>
+      E-Mail: info@osena-partyverleih.de</p>
+
+      <p style="margin-bottom:12px;"><strong style="color:var(--text);">Kleinunternehmerregelung</strong><br>
+      Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.</p>
 
       <p style="margin-bottom:0;"><strong style="color:var(--text);">Haftungshinweis</strong><br>
       Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.</p>
@@ -1924,6 +1992,8 @@ function closeModal() { document.getElementById("modal").classList.remove("activ
 
 function openDsgvo(e) { if(e) e.stopPropagation(); document.getElementById("dsgvo-modal").classList.add("active"); }
 function closeDsgvo(e) { if(e && e.target !== document.getElementById("dsgvo-modal")) return; document.getElementById("dsgvo-modal").classList.remove("active"); }
+function openAgb() { document.getElementById("agb-modal").classList.add("active"); }
+function closeAgb(e) { if(e && e.target !== document.getElementById("agb-modal")) return; document.getElementById("agb-modal").classList.remove("active"); }
 function openImpressum() { document.getElementById("impressum-modal").classList.add("active"); }
 function closeImpressum(e) { if(e && e.target !== document.getElementById("impressum-modal")) return; document.getElementById("impressum-modal").classList.remove("active"); }
 
