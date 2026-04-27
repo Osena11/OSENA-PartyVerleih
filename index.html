@@ -777,8 +777,8 @@ footer {
   <div class="logo">OSENA <span>·</span></div>
   <nav class="header-nav">
     <a href="#angebot" class="nav-btn">Angebot</a>
-    <a href="#buchen" class="nav-btn">Verfügbarkeit</a>
-    <a href="#buchen" class="nav-btn nav-cta">Jetzt buchen</a>
+    <button onclick="document.getElementById('buchen').scrollIntoView({behavior:'smooth'})" class="nav-btn">Verfügbarkeit</button>
+    <button onclick="document.getElementById('buchen').scrollIntoView({behavior:'smooth'})" class="nav-btn nav-cta">Jetzt buchen</button>
   </nav>
 </header>
 
@@ -789,7 +789,7 @@ footer {
     <h1>Verleih für<br>deinen<br><em>Anlass</em></h1>
     <p class="hero-desc">Partyzubehör mieten in Dresden. Stühle und Warmhaltebehälter für jeden Anlass — schnell gebucht, pünktlich geliefert.</p>
     <div class="hero-actions">
-      <a href="#buchen" class="btn-dark">Jetzt buchen</a>
+      <button onclick="document.getElementById('buchen').scrollIntoView({behavior:'smooth'})" class="btn-dark">Jetzt buchen</button>
       <a href="#angebot" class="btn-outline">Angebot ansehen</a>
     </div>
     <div class="hero-stats">
@@ -1369,6 +1369,11 @@ footer {
 // ══════════════════════════════
 const SUPABASE_URL = 'https://ikydjavfavlprhfhsiqi.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_q6j4qe6tkY9lX5n9pv0dLg_IalGCGGc';
+
+// ══════════════════════════════
+//  STRIPE CONFIG
+// ══════════════════════════════
+const STRIPE_PUBLIC_KEY = 'pk_test_51TQoPPBfV1px0kHNiYC5odP7fncruXd0jH6gX3jpi2NndDefav8F6g0BIaMCkJNunWrRBljsMtPgcH1VPd8FjMLh00dHhEPocw';
 
 async function sbFetch(path, options = {}) {
   if (SUPABASE_KEY === 'DEIN_ANON_KEY_HIER' || !SUPABASE_KEY) {
