@@ -6,6 +6,8 @@
 <title>OSENA Partyverleih Dresden</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>emailjs.init('YBGsvyrigNv0gMAUB');</script>
 <style>
 :root {
   --bg: #f7f4ef;
@@ -1439,6 +1441,13 @@ const SUPABASE_URL = 'https://ikydjavfavlprhfhsiqi.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_q6j4qe6tkY9lX5n9pv0dLg_IalGCGGc';
 
 // ══════════════════════════════
+//  EMAILJS CONFIG
+// ══════════════════════════════
+const EMAILJS_SERVICE = 'service_10mfr7t';
+const EMAILJS_TEMPLATE_BUCHUNG = 'template_e95wz3u';   // Buchungsschein → buchung@osena
+const EMAILJS_TEMPLATE_ALARM = 'template_g4smc0n';     // Alarm → robert gmail
+
+// ══════════════════════════════
 //  STRIPE CONFIG
 // ══════════════════════════════
 const STRIPE_PUBLIC_KEY = 'pk_test_51TQoPPBfV1px0kHNiYC5odP7fncruXd0jH6gX3jpi2NndDefav8F6g0BIaMCkJNunWrRBljsMtPgcH1VPd8FjMLh00dHhEPocw';
@@ -1551,6 +1560,50 @@ async function saveBookingToSupabase(bookingData) {
     prefer: 'return=representation',
     body: JSON.stringify(bookingData)
   });
+}
+
+// E-Mails via EmailJS senden
+async function sendEmails(data) {
+  const chaDesc = [];
+  if (data.cha_full > 0) chaDesc.push(`${data.cha_full}× 1/1`);
+  if (data.cha_half > 0) chaDesc.push(`${data.cha_half}× 2×½`);
+  if (data.cha_third > 0) chaDesc.push(`${data.cha_third}× 3×⅓`);
+
+  const priceDetails = [];
+  if (data.chairs_eleganz > 0) priceDetails.push(`Eleganz-Stühle: ${data.chairs_eleganz} × ${data.days} × 2€`);
+  if (data.chairs_klapp > 0) priceDetails.push(`Klappstühle: ${data.chairs_klapp} × ${data.days} × 2€`);
+  if (chaDesc.length > 0) priceDetails.push(`Chafing Dishes: ${chaDesc.join(', ')} × ${data.days} × 10€`);
+  if (data.paste_count > 0) priceDetails.push(`Brennpaste: ${data.paste_count} × 1,50€`);
+  if (data.weekend) priceDetails.push(`Wochenendrabatt: −20%`);
+  if (data.transport === 'delivery') priceDetails.push(`Lieferung: 59,00€`);
+
+  const templateParams = {
+    booking_code: data.booking_code,
+    name: data.name,
+    contact: data.contact,
+    date_from: formatDate(data.date_from),
+    date_to: formatDate(data.date_to),
+    created_date: new Date().toLocaleDateString('de-DE'),
+    chairs_eleganz: data.chairs_eleganz || 0,
+    chairs_klapp: data.chairs_klapp || 0,
+    chafing: chaDesc.join(', ') || 'Keine',
+    cha_full: data.cha_full || 0,
+    cha_half: data.cha_half || 0,
+    cha_third: data.cha_third || 0,
+    paste: data.paste_count || 0,
+    transport_type: data.transport === 'delivery' ? '🚚 Lieferung & Abholung' : '📍 Selbstabholung — Am Kohlenplatz 10, 01099 Dresden',
+    address: data.address || 'Am Kohlenplatz 10, 01099 Dresden',
+    total: data.total,
+    notes: data.notes || '—',
+    price_details: priceDetails.join('\n'),
+    days: data.days
+  };
+
+  // Beide E-Mails gleichzeitig senden
+  await Promise.all([
+    emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_BUCHUNG, templateParams),
+    emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_ALARM, templateParams)
+  ]);
 }
 
 // Stornierung in Supabase
@@ -1919,6 +1972,25 @@ document.getElementById("btn-book").addEventListener("click", async () => {
       discount: discountAmount,
       status: 'active',
       booking_code: bookingCode
+    });
+
+    // E-Mails senden
+    await sendEmails({
+      booking_code: bookingCode,
+      name, contact, notes,
+      date_from: selectedFrom,
+      date_to: selectedTo || selectedFrom,
+      chairs_eleganz: chairCountE,
+      chairs_klapp: chairCountK,
+      cha_full: chaFull,
+      cha_half: chaHalf,
+      cha_third: chaThird,
+      paste_count: pasteCount,
+      transport: transportMode,
+      address,
+      total: totalNum.toFixed(2).replace('.', ','),
+      days: getDays(),
+      weekend
     });
 
     // Verfügbarkeit neu laden
