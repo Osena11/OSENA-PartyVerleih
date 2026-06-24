@@ -650,7 +650,7 @@ tbody td {
 // ══════════════════════════════
 //  CONFIG — PASSWORT HIER SETZEN!
 // ══════════════════════════════
-const ADMIN_PASSWORD = 'osena2026'; // ← Passwort hier ändern!
+const ADMIN_PASSWORD = 'osena2026!'; // ← Passwort hier ändern!
 
 const SUPABASE_URL = 'https://ikydjavfavlprhfhsiqi.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_q6j4qe6tkY9lX5n9pv0dLg_IalGCGGc';
@@ -851,7 +851,7 @@ function printDoc(title, bodyHtml) {
       @media print { body { padding: 0; } }
     </style>
     </head><body>${bodyHtml}
-    <script>window.onload = () => window.print();</script>
+    <script>window.onload = () => window.print();<\/script>
     </body></html>
   `);
   w.document.close();
