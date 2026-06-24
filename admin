@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSENA Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f0f0f;
+  --surface: #1a1a1a;
+  --surface2: #222222;
+  --border: #2a2a2a;
+  --gold: #c9954c;
+  --gold2: #e8b86d;
+  --text: #f0e6d3;
+  --muted: #666;
+  --green: #3fb68e;
+  --red: #e05555;
+  --blue: #4a90d9;
+  --radius: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+
+body {
+  background: var(--bg);
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── LOGIN ── */
+#login-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 50% 50%, rgba(201,149,76,0.06) 0%, transparent 70%), #0f0f0f;
+}
+
+.login-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+}
+
+.login-logo {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 4px;
+  margin-bottom: 8px;
+}
+
+.login-sub {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 36px;
+}
+
+.login-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 1rem;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  outline: none;
+  text-align: center;
+  letter-spacing: 3px;
+  transition: border-color 0.2s;
+  margin-bottom: 16px;
+}
+.login-input:focus { border-color: var(--gold); }
+
+.login-btn {
+  width: 100%;
+  background: var(--gold);
+  color: #0f0f0f;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 14px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.login-btn:hover { background: var(--gold2); transform: translateY(-1px); }
+
+.login-error {
+  color: var(--red);
+  font-size: 12px;
+  margin-top: 12px;
+  display: none;
+}
+
+/* ── ADMIN PANEL ── */
+#admin-panel { display: none; }
+
+.admin-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.admin-logo {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 3px;
+}
+
+.admin-logo span {
+  color: var(--muted);
+  font-weight: 300;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  margin-left: 12px;
+}
+
+.logout-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  padding: 6px 16px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.logout-btn:hover { border-color: var(--red); color: var(--red); }
+
+/* ── NAV TABS ── */
+.admin-nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  display: flex;
+  gap: 4px;
+}
+
+.nav-tab {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 14px 20px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-tab:hover { color: var(--text); }
+.nav-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ── CONTENT ── */
+.admin-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.card-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── STATS ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+
+.stat-val {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ── FORM ── */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group { margin-bottom: 16px; }
+.form-group label {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus { border-color: var(--gold); }
+.form-group input[type="number"] { font-family: 'DM Mono', monospace; }
+.form-group textarea { resize: vertical; min-height: 80px; }
+
+.btn-save {
+  background: var(--gold);
+  color: #0f0f0f;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 12px 28px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-save:hover { background: var(--gold2); transform: translateY(-1px); }
+
+.btn-danger {
+  background: none;
+  border: 1px solid var(--red);
+  color: var(--red);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-danger:hover { background: rgba(224,85,85,0.1); }
+
+/* ── BOOKINGS TABLE ── */
+.table-wrap { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+thead th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+tbody tr:hover { background: rgba(201,149,76,0.04); }
+tbody tr:last-child { border-bottom: none; }
+
+tbody td {
+  padding: 12px 14px;
+  color: var(--text);
+  vertical-align: middle;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 500;
+}
+.badge-active { background: rgba(63,182,142,0.12); color: var(--green); }
+.badge-cancelled { background: rgba(224,85,85,0.12); color: var(--red); }
+.badge-paid { background: rgba(74,144,217,0.12); color: var(--blue); }
+
+/* ── FILTER BAR ── */
+/* ── DOC BUTTONS ── */
+.doc-btns { display: flex; gap: 6px; }
+.doc-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.doc-btn:hover { border-color: var(--gold); color: var(--gold); }
+.doc-btn.lieferschein:hover { border-color: var(--blue); color: var(--blue); }
+
+#archive-tbody tr { opacity: 0.65; }
+#archive-tbody tr:hover { opacity: 1; }
+
+.date-cell { font-family: 'DM Mono', monospace; font-size: 12px; white-space: nowrap; }
+.date-range-to { color: var(--muted); }
+
+.filter-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  outline: none;
+  transition: border-color 0.2s;
+  flex: 1;
+  min-width: 200px;
+}
+.filter-input:focus { border-color: var(--gold); }
+
+/* ── LOADING ── */
+.loading {
+  text-align: center;
+  color: var(--muted);
+  padding: 40px;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.toast.success { border-color: var(--green); color: var(--green); }
+.toast.error { border-color: var(--red); color: var(--red); }
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  .admin-content { padding: 16px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .admin-nav { overflow-x: auto; }
+  .admin-header { padding: 0 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">OSENA</div>
+    <div class="login-sub">Admin Panel</div>
+    <input type="password" class="login-input" id="password-input" placeholder="Passwort eingeben" onkeydown="if(event.key==='Enter') checkLogin()">
+    <button class="login-btn" onclick="checkLogin()">Einloggen</button>
+    <div class="login-error" id="login-error">❌ Falsches Passwort</div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="admin-panel">
+
+  <div class="admin-header">
+    <div class="admin-logo">OSENA <span>Admin Panel</span></div>
+    <button class="logout-btn" onclick="logout()">Ausloggen</button>
+  </div>
+
+  <div class="admin-nav">
+    <button class="nav-tab active" onclick="switchTab('buchungen')">📋 Buchungen</button>
+    <button class="nav-tab" onclick="switchTab('preise')">💶 Preise</button>
+    <button class="nav-tab" onclick="switchTab('inventar')">🪑 Inventar</button>
+    <button class="nav-tab" onclick="switchTab('texte')">✏️ Texte</button>
+  </div>
+
+  <div class="admin-content">
+
+    <!-- TAB: BUCHUNGEN -->
+    <div class="tab-panel active" id="tab-buchungen">
+
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card"><div class="stat-val" id="stat-total">–</div><div class="stat-label">Buchungen gesamt</div></div>
+        <div class="stat-card"><div class="stat-val" id="stat-active">–</div><div class="stat-label">Anstehend</div></div>
+        <div class="stat-card"><div class="stat-val" id="stat-cancelled">–</div><div class="stat-label">Storniert</div></div>
+        <div class="stat-card"><div class="stat-val" id="stat-revenue">–</div><div class="stat-label">Umsatz gesamt</div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 Anstehende Buchungen <span style="color:var(--muted);font-weight:400;letter-spacing:0;text-transform:none;font-size:11px;margin-left:6px;">— nächster Termin oben</span></div>
+        <div class="filter-bar">
+          <input type="text" class="filter-input" id="search-input" placeholder="🔍 Suche nach Name, Code, Kontakt..." oninput="filterBookings()">
+          <select class="filter-input" id="status-filter" style="flex:0;min-width:140px;" onchange="filterBookings()">
+            <option value="">Alle Status</option>
+            <option value="active">Aktiv</option>
+            <option value="cancelled">Storniert</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <div class="loading" id="bookings-loading">⏳ Lade Buchungen...</div>
+          <table id="bookings-table" style="display:none;">
+            <thead>
+              <tr>
+                <th>Datum</th>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Artikel</th>
+                <th>Lieferung</th>
+                <th>Gesamt</th>
+                <th>Status</th>
+                <th>Belege</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="bookings-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" id="archive-card" style="display:none;">
+        <div class="card-title">🗄️ Archiv <span style="color:var(--muted);font-weight:400;letter-spacing:0;text-transform:none;font-size:11px;margin-left:6px;">— abgeschlossene Buchungen (Mietende in der Vergangenheit)</span></div>
+        <div class="table-wrap">
+          <table id="archive-table">
+            <thead>
+              <tr>
+                <th>Datum</th>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Artikel</th>
+                <th>Lieferung</th>
+                <th>Gesamt</th>
+                <th>Status</th>
+                <th>Belege</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="archive-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- TAB: PREISE -->
+    <div class="tab-panel" id="tab-preise">
+      <div class="card">
+        <div class="card-title">💶 Mietpreise anpassen</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Eleganz-Stuhl (€ pro Tag)</label>
+            <input type="number" id="price-eleganz" value="2.00" step="0.50" min="0">
+          </div>
+          <div class="form-group">
+            <label>Klappstuhl (€ pro Tag)</label>
+            <input type="number" id="price-klapp" value="2.00" step="0.50" min="0">
+          </div>
+          <div class="form-group">
+            <label>Chafing Dish (€ pro Set/Tag)</label>
+            <input type="number" id="price-chafing" value="10.00" step="0.50" min="0">
+          </div>
+          <div class="form-group">
+            <label>Brennpaste (€ pro Stück)</label>
+            <input type="number" id="price-paste" value="1.50" step="0.10" min="0">
+          </div>
+          <div class="form-group">
+            <label>Lieferung & Abholung (€ pauschal)</label>
+            <input type="number" id="price-delivery" value="59.00" step="1" min="0">
+          </div>
+          <div class="form-group">
+            <label>Wochenendrabatt (%)</label>
+            <input type="number" id="price-discount" value="20" step="5" min="0" max="100">
+          </div>
+        </div>
+        <button class="btn-save" onclick="savePrices()">💾 Preise speichern</button>
+        <p style="font-size:11px;color:var(--muted);margin-top:12px;">⚠️ Nach dem Speichern müsst ihr die index.html neu generieren lassen damit die neuen Preise auf der Webseite erscheinen.</p>
+      </div>
+    </div>
+
+    <!-- TAB: INVENTAR -->
+    <div class="tab-panel" id="tab-inventar">
+      <div class="card">
+        <div class="card-title">🪑 Inventar verwalten</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Eleganz-Stühle (Anzahl gesamt)</label>
+            <input type="number" id="inv-eleganz" value="30" min="0">
+          </div>
+          <div class="form-group">
+            <label>Klappstühle (Anzahl gesamt)</label>
+            <input type="number" id="inv-klapp" value="20" min="0">
+          </div>
+          <div class="form-group">
+            <label>Chafing Dish 1/1 (Anzahl Sets)</label>
+            <input type="number" id="inv-full" value="7" min="0">
+          </div>
+          <div class="form-group">
+            <label>Chafing Dish 2×½ (Anzahl Doppel-Sets)</label>
+            <input type="number" id="inv-half" value="2" min="0">
+          </div>
+          <div class="form-group">
+            <label>Chafing Dish 3×⅓ (Anzahl Sets)</label>
+            <input type="number" id="inv-third" value="1" min="0">
+          </div>
+          <div class="form-group">
+            <label>Stehtische (Anzahl)</label>
+            <input type="number" id="inv-stehtisch" value="2" min="0">
+          </div>
+          <div class="form-group">
+            <label>Biertischgarnituren (Anzahl)</label>
+            <input type="number" id="inv-bier" value="2" min="0">
+          </div>
+        </div>
+        <button class="btn-save" onclick="saveInventar()">💾 Inventar speichern</button>
+      </div>
+    </div>
+
+    <!-- TAB: TEXTE -->
+    <div class="tab-panel" id="tab-texte">
+      <div class="card">
+        <div class="card-title">✏️ Website-Texte anpassen</div>
+        <div class="form-group">
+          <label>Hero-Überschrift (Zeile 1)</label>
+          <input type="text" id="text-hero1" value="Verleih für">
+        </div>
+        <div class="form-group">
+          <label>Hero-Überschrift (Zeile 2)</label>
+          <input type="text" id="text-hero2" value="deinen">
+        </div>
+        <div class="form-group">
+          <label>Hero-Überschrift (Zeile 3 — goldene Schrift)</label>
+          <input type="text" id="text-hero3" value="Anlass">
+        </div>
+        <div class="form-group">
+          <label>Hero-Beschreibungstext</label>
+          <textarea id="text-desc">Partyzubehör mieten in Dresden. Stühle und Warmhaltebehälter für jeden Anlass — schnell gebucht, pünktlich geliefert.</textarea>
+        </div>
+        <div class="form-group">
+          <label>Adresse</label>
+          <input type="text" id="text-address" value="Am Kohlenplatz 10, 01099 Dresden">
+        </div>
+        <div class="form-group">
+          <label>Telefonnummer (für Impressum)</label>
+          <input type="text" id="text-phone" placeholder="z.B. +49 351 ...">
+        </div>
+        <button class="btn-save" onclick="saveTexte()">💾 Texte speichern</button>
+        <p style="font-size:11px;color:var(--muted);margin-top:12px;">⚠️ Gespeicherte Texte werden als Vorlage gespeichert — schick sie dann an uns zum Einbauen.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════
+//  CONFIG — PASSWORT HIER SETZEN!
+// ══════════════════════════════
+const ADMIN_PASSWORD = 'osena2026'; // ← Passwort hier ändern!
+
+const SUPABASE_URL = 'https://ikydjavfavlprhfhsiqi.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_q6j4qe6tkY9lX5n9pv0dLg_IalGCGGc';
+
+// ── LOGIN
+function checkLogin() {
+  const pw = document.getElementById('password-input').value;
+  if (pw === ADMIN_PASSWORD) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    loadBookings();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('password-input').value = '';
+    document.getElementById('password-input').focus();
+  }
+}
+
+function logout() {
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('admin-panel').style.display = 'none';
+  document.getElementById('password-input').value = '';
+}
+
+// ── TABS
+function switchTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  event.target.classList.add('active');
+  if (tab === 'buchungen') loadBookings();
+}
+
+// ── SUPABASE
+async function sbFetch(path, options = {}) {
+  const res = await fetch(SUPABASE_URL + '/rest/v1/' + path, {
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': options.prefer || 'return=representation',
+      ...options.headers
+    },
+    ...options
+  });
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+}
+
+// ── BUCHUNGEN LADEN
+let allBookings = [];
+
+async function loadBookings() {
+  document.getElementById('bookings-loading').style.display = 'block';
+  document.getElementById('bookings-table').style.display = 'none';
+
+  try {
+    const data = await sbFetch('bookings?order=date_from.asc');
+    allBookings = data || [];
+    renderBookings(allBookings);
+    updateStats(allBookings);
+  } catch(e) {
+    document.getElementById('bookings-loading').textContent = '❌ Fehler beim Laden — ' + e.message;
+  }
+}
+
+function updateStats(bookings) {
+  const todayStr = toLocalDateStr(new Date());
+  const active = bookings.filter(b => b.status === 'active');
+  const upcoming = active.filter(b => (b.date_to || b.date_from) >= todayStr);
+  const cancelled = bookings.filter(b => b.status === 'cancelled');
+  const revenue = active.reduce((sum, b) => sum + (b.total_price || 0), 0);
+  document.getElementById('stat-total').textContent = bookings.length;
+  document.getElementById('stat-active').textContent = upcoming.length;
+  document.getElementById('stat-cancelled').textContent = cancelled.length;
+  document.getElementById('stat-revenue').textContent = revenue.toFixed(0) + ' €';
+}
+
+function filterBookings() {
+  const search = document.getElementById('search-input').value.toLowerCase();
+  const status = document.getElementById('status-filter').value;
+  const filtered = allBookings.filter(b => {
+    const matchSearch = !search || 
+      (b.name || '').toLowerCase().includes(search) ||
+      (b.contact || '').toLowerCase().includes(search) ||
+      (b.booking_code || '').toLowerCase().includes(search);
+    const matchStatus = !status || b.status === status;
+    return matchSearch && matchStatus;
+  });
+  renderBookings(filtered);
+}
+
+function toLocalDateStr(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+function formatDate(str) {
+  if (!str) return '–';
+  const [y, m, d] = str.split('-');
+  return `${d}.${m}.${y}`;
+}
+
+function articleSummary(b) {
+  const parts = [];
+  if (b.chairs_eleganz > 0) parts.push(`${b.chairs_eleganz}× Eleganz-Stuhl`);
+  if (b.chairs_klapp > 0) parts.push(`${b.chairs_klapp}× Klappstuhl`);
+  if (b.cha_full > 0) parts.push(`${b.cha_full}× Chafing 1/1`);
+  if (b.cha_half > 0) parts.push(`${b.cha_half}× Chafing 2×½`);
+  if (b.cha_third > 0) parts.push(`${b.cha_third}× Chafing 3×⅓`);
+  if (b.paste_count > 0) parts.push(`${b.paste_count}× Brennpaste`);
+  return parts;
+}
+
+function articleCount(b) {
+  return (b.chairs_eleganz||0) + (b.chairs_klapp||0) + (b.cha_full||0) + (b.cha_half||0) + (b.cha_third||0);
+}
+
+function renderBookings(bookings) {
+  document.getElementById('bookings-loading').style.display = 'none';
+  document.getElementById('bookings-table').style.display = 'table';
+
+  const todayStr = toLocalDateStr(new Date());
+  const endDate = b => b.date_to || b.date_from;
+
+  // Anstehend: Mietende heute oder in der Zukunft (oder storniert aber noch zukünftig, zur Übersicht)
+  const upcoming = bookings.filter(b => endDate(b) >= todayStr)
+                            .sort((a, b) => (a.date_from || '').localeCompare(b.date_from || ''));
+  // Archiv: Mietende in der Vergangenheit
+  const archived = bookings.filter(b => endDate(b) < todayStr)
+                            .sort((a, b) => (b.date_from || '').localeCompare(a.date_from || ''));
+
+  document.getElementById('bookings-tbody').innerHTML = renderRows(upcoming, 'Keine anstehenden Buchungen');
+
+  const archiveCard = document.getElementById('archive-card');
+  if (archived.length > 0) {
+    archiveCard.style.display = 'block';
+    document.getElementById('archive-tbody').innerHTML = renderRows(archived, 'Keine archivierten Buchungen');
+  } else {
+    archiveCard.style.display = 'none';
+  }
+}
+
+function renderRows(bookings, emptyMsg) {
+  if (bookings.length === 0) {
+    return `<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:32px;">${emptyMsg}</td></tr>`;
+  }
+
+  return bookings.map(b => {
+    const statusBadge = b.status === 'active' 
+      ? '<span class="badge badge-active">Aktiv</span>'
+      : '<span class="badge badge-cancelled">Storniert</span>';
+
+    const deliveryCell = b.transport === 'delivery'
+      ? '<span class="badge badge-paid">🚚 Ja</span>'
+      : '<span style="color:var(--muted);font-size:12px;">📍 Nein</span>';
+
+    return `<tr>
+      <td class="date-cell">${formatDate(b.date_from)}<br><span class="date-range-to">→ ${formatDate(b.date_to)}</span></td>
+      <td style="font-family:'DM Mono',monospace;font-size:12px;color:var(--gold);">${b.booking_code || '–'}</td>
+      <td style="font-weight:500;">${b.name || '–'}<br><span style="color:var(--muted);font-size:11px;font-weight:400;">${b.contact || ''}</span></td>
+      <td style="font-size:12px;color:var(--muted);">${articleCount(b)} Artikel</td>
+      <td>${deliveryCell}</td>
+      <td style="color:var(--gold);font-weight:500;">${b.total_price ? b.total_price.toFixed(2).replace('.',',') + ' €' : '–'}</td>
+      <td>${statusBadge}</td>
+      <td>
+        <div class="doc-btns">
+          <button class="doc-btn" onclick='printConfirmation(${JSON.stringify(b)})'>🧾 Bestätigung</button>
+          <button class="doc-btn lieferschein" onclick='printDeliveryNote(${JSON.stringify(b)})'>📦 Lieferschein</button>
+        </div>
+      </td>
+      <td>
+        ${b.status === 'active' ? `<button class="btn-danger" onclick="cancelBooking(${b.id}, '${b.booking_code}')">Stornieren</button>` : '–'}
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ── DRUCKBARE BELEGE ──
+function printDoc(title, bodyHtml) {
+  const w = window.open('', '_blank');
+  w.document.write(`
+    <html><head><title>${title}</title>
+    <meta charset="UTF-8">
+    <style>
+      body { font-family: 'DM Sans', Arial, sans-serif; color: #2e3a26; padding: 40px; max-width: 720px; margin: 0 auto; }
+      h1 { font-size: 20px; margin-bottom: 4px; }
+      .sub { color: #7d8c70; font-size: 12px; margin-bottom: 28px; letter-spacing: 1px; text-transform: uppercase; }
+      table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+      td { padding: 7px 0; border-bottom: 1px solid #e0e0e0; font-size: 13px; }
+      td.label { color: #7d8c70; width: 40%; }
+      .code { font-size: 22px; letter-spacing: 4px; color: #b8922a; font-weight: 700; margin: 10px 0 24px; }
+      .sign { margin-top: 60px; display: flex; gap: 40px; }
+      .sign div { flex: 1; border-top: 1px solid #333; padding-top: 6px; font-size: 11px; color: #555; }
+      .footer { margin-top: 40px; font-size: 11px; color: #999; border-top: 1px solid #e0e0e0; padding-top: 12px; }
+      @media print { body { padding: 0; } }
+    </style>
+    </head><body>${bodyHtml}
+    <script>window.onload = () => window.print();</script>
+    </body></html>
+  `);
+  w.document.close();
+}
+
+function printConfirmation(b) {
+  const articles = articleSummary(b).map(a => `<tr><td colspan="2">• ${a}</td></tr>`).join('');
+  const html = `
+    <h1>OSENA Partyverleih Dresden</h1>
+    <div class="sub">Buchungsbestätigung</div>
+    <div class="code">${b.booking_code || '–'}</div>
+    <table>
+      <tr><td class="label">Name</td><td>${b.name || '–'}</td></tr>
+      <tr><td class="label">Kontakt</td><td>${b.contact || '–'}</td></tr>
+      <tr><td class="label">Mietzeitraum</td><td>${formatDate(b.date_from)} ab 10:00 Uhr – ${formatDate(b.date_to)} bis 10:00 Uhr</td></tr>
+      <tr><td class="label">Transport</td><td>${b.transport === 'delivery' ? 'Lieferung & Abholung (59,00 €)' : 'Selbstabholung — Am Kohlenplatz 10, 01099 Dresden'}</td></tr>
+      ${b.address ? `<tr><td class="label">Lieferadresse</td><td>${b.address}</td></tr>` : ''}
+      ${articles}
+      <tr><td class="label">Gesamtpreis</td><td style="font-weight:700;color:#b8922a;">${b.total_price ? b.total_price.toFixed(2).replace('.',',') + ' €' : '–'}</td></tr>
+    </table>
+    <div class="footer">OSENA Partyverleih · Robert Idemudia · Am Kohlenplatz 10 · 01099 Dresden · info@osena-partyverleih.de<br>Es gelten unsere AGB. Stornierung online über osena-partyverleih.de möglich.</div>
+  `;
+  printDoc('Buchungsbestätigung ' + (b.booking_code || ''), html);
+}
+
+function printDeliveryNote(b) {
+  const articles = articleSummary(b).map(a => `<tr><td colspan="2">• ${a}</td></tr>`).join('');
+  const html = `
+    <h1>OSENA Partyverleih Dresden</h1>
+    <div class="sub">${b.transport === 'delivery' ? 'Lieferschein' : 'Abholschein'}</div>
+    <div class="code">${b.booking_code || '–'}</div>
+    <table>
+      <tr><td class="label">Kunde</td><td>${b.name || '–'}</td></tr>
+      <tr><td class="label">Kontakt</td><td>${b.contact || '–'}</td></tr>
+      <tr><td class="label">${b.transport === 'delivery' ? 'Lieferung am' : 'Abholung am'}</td><td>${formatDate(b.date_from)} ab 10:00 Uhr</td></tr>
+      <tr><td class="label">${b.transport === 'delivery' ? 'Abholung der Ware am' : 'Rückgabe am'}</td><td>${formatDate(b.date_to)} bis 10:00 Uhr</td></tr>
+      ${b.address ? `<tr><td class="label">Adresse</td><td>${b.address}</td></tr>` : ''}
+      ${articles}
+      <tr><td class="label">Gesamtpreis</td><td style="font-weight:700;color:#b8922a;">${b.total_price ? b.total_price.toFixed(2).replace('.',',') + ' €' : '–'}</td></tr>
+      ${b.notes ? `<tr><td class="label">Hinweise</td><td>${b.notes}</td></tr>` : ''}
+    </table>
+    <div class="sign">
+      <div>Übergeben von (OSENA)</div>
+      <div>Erhalten von (Kunde)</div>
+    </div>
+    <div class="footer">Artikel wurden auf Vollständigkeit und Zustand geprüft. Bitte sauber und vollständig zurückgeben. Es gelten unsere AGB.</div>
+  `;
+  printDoc((b.transport === 'delivery' ? 'Lieferschein' : 'Abholschein') + ' ' + (b.booking_code || ''), html);
+}
+
+async function cancelBooking(id, code) {
+  if (!confirm(`Buchung ${code} wirklich stornieren?`)) return;
+  try {
+    await sbFetch(`bookings?id=eq.${id}`, {
+      method: 'PATCH',
+      prefer: 'return=minimal',
+      body: JSON.stringify({ status: 'cancelled', cancel_reason: 'Admin storniert' })
+    });
+    showToast('✅ Buchung storniert', 'success');
+    loadBookings();
+  } catch(e) {
+    showToast('❌ Fehler: ' + e.message, 'error');
+  }
+}
+
+// ── PREISE SPEICHERN
+function savePrices() {
+  const prices = {
+    eleganz: document.getElementById('price-eleganz').value,
+    klapp: document.getElementById('price-klapp').value,
+    chafing: document.getElementById('price-chafing').value,
+    paste: document.getElementById('price-paste').value,
+    delivery: document.getElementById('price-delivery').value,
+    discount: document.getElementById('price-discount').value
+  };
+  localStorage.setItem('osena_prices', JSON.stringify(prices));
+  showToast('✅ Preise gespeichert! Bitte Claude zum Einbauen schicken.', 'success');
+}
+
+// ── INVENTAR SPEICHERN
+function saveInventar() {
+  const inv = {
+    eleganz: document.getElementById('inv-eleganz').value,
+    klapp: document.getElementById('inv-klapp').value,
+    full: document.getElementById('inv-full').value,
+    half: document.getElementById('inv-half').value,
+    third: document.getElementById('inv-third').value,
+    stehtisch: document.getElementById('inv-stehtisch').value,
+    bier: document.getElementById('inv-bier').value
+  };
+  localStorage.setItem('osena_inventar', JSON.stringify(inv));
+  showToast('✅ Inventar gespeichert! Bitte Claude zum Einbauen schicken.', 'success');
+}
+
+// ── TEXTE SPEICHERN
+function saveTexte() {
+  const texte = {
+    hero1: document.getElementById('text-hero1').value,
+    hero2: document.getElementById('text-hero2').value,
+    hero3: document.getElementById('text-hero3').value,
+    desc: document.getElementById('text-desc').value,
+    address: document.getElementById('text-address').value,
+    phone: document.getElementById('text-phone').value
+  };
+  localStorage.setItem('osena_texte', JSON.stringify(texte));
+  showToast('✅ Texte gespeichert! Bitte Claude zum Einbauen schicken.', 'success');
+}
+
+// ── GESPEICHERTE WERTE LADEN
+function loadSavedValues() {
+  const prices = JSON.parse(localStorage.getItem('osena_prices') || '{}');
+  if (prices.eleganz) document.getElementById('price-eleganz').value = prices.eleganz;
+  if (prices.klapp) document.getElementById('price-klapp').value = prices.klapp;
+  if (prices.chafing) document.getElementById('price-chafing').value = prices.chafing;
+  if (prices.paste) document.getElementById('price-paste').value = prices.paste;
+  if (prices.delivery) document.getElementById('price-delivery').value = prices.delivery;
+  if (prices.discount) document.getElementById('price-discount').value = prices.discount;
+
+  const inv = JSON.parse(localStorage.getItem('osena_inventar') || '{}');
+  if (inv.eleganz) document.getElementById('inv-eleganz').value = inv.eleganz;
+  if (inv.klapp) document.getElementById('inv-klapp').value = inv.klapp;
+  if (inv.full) document.getElementById('inv-full').value = inv.full;
+  if (inv.half) document.getElementById('inv-half').value = inv.half;
+  if (inv.third) document.getElementById('inv-third').value = inv.third;
+  if (inv.stehtisch) document.getElementById('inv-stehtisch').value = inv.stehtisch;
+  if (inv.bier) document.getElementById('inv-bier').value = inv.bier;
+
+  const texte = JSON.parse(localStorage.getItem('osena_texte') || '{}');
+  if (texte.hero1) document.getElementById('text-hero1').value = texte.hero1;
+  if (texte.hero2) document.getElementById('text-hero2').value = texte.hero2;
+  if (texte.hero3) document.getElementById('text-hero3').value = texte.hero3;
+  if (texte.desc) document.getElementById('text-desc').value = texte.desc;
+  if (texte.address) document.getElementById('text-address').value = texte.address;
+  if (texte.phone) document.getElementById('text-phone').value = texte.phone;
+}
+
+// ── TOAST
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.className = 'toast ' + type, 3000);
+}
+
+// Init
+loadSavedValues();
+</script>
+</body>
+</html>
