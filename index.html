@@ -10,31 +10,32 @@
 <script>emailjs.init('YBGsvyrigNv0gMAUB');</script>
 <style>
 :root {
-  --bg: #f7f4ef;
-  --bg2: #eeeae2;
-  --dark: #1a1610;
+  --bg: #eef3e8;
+  --bg2: #e2ead9;
+  --dark: #283322;
   --gold: #b8922a;
   --gold2: #d4aa4a;
   --gold-light: rgba(184,146,42,0.12);
   --white: #ffffff;
-  --text: #2c2518;
-  --muted: #8a7d65;
-  --border: #ddd8cc;
+  --text: #2e3a26;
+  --muted: #7d8c70;
+  --border: #d3ddc6;
   --card: #ffffff;
-  --green: #2d6a4f;
+  --green: #5a7a4a;
   --amber: #b5770a;
   --red: #8b2020;
   --radius: 3px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 
 body {
   background: var(--bg);
   font-family: 'DM Sans', sans-serif;
   color: var(--text);
   overflow-x: hidden;
+  max-width: 100vw;
 }
 
 /* ── HEADER ── */
@@ -111,7 +112,7 @@ header {
 .hero-tag::before {
   content: '';
   width: 24px; height: 1px;
-  background: var(--gold);
+  background: var(--dark);
 }
 .hero h1 {
   font-family: 'Playfair Display', serif;
@@ -757,18 +758,33 @@ footer {
 .footer-copy { font-size: 12px; color: rgba(255,255,255,0.3); }
 
 /* RESPONSIVE */
-@media (max-width: 900px) {
+@media (max-width: 600px) {
+  .delivery-grid { grid-template-columns: 1fr !important; }
+  .hero h1 { font-size: 2.8rem; }
+  .stat-num { font-size: 1.5rem; }
+  .section-title { font-size: 1.8rem; }
+  .products-grid { gap: 16px; }
+  .product-body { padding: 20px 16px; }
+}
   .hero-left { padding: 60px 24px; }
   .products-grid { grid-template-columns: 1fr !important; }
   .booking-grid { grid-template-columns: 1fr; }
   .booking-form { position: static; }
   .section { padding: 60px 24px; }
+  .booking-inner { padding: 60px 24px; }
   .delivery-banner { flex-direction: column; text-align: center; }
   .delivery-left { flex-direction: column; text-align: center; }
-  footer { flex-direction: column; text-align: center; }
+  footer { flex-direction: column; text-align: center; padding: 40px 24px; }
   .footer-right { text-align: center; }
-  header { padding: 0 20px; }
+  header { padding: 0 16px; }
   .nav-btn:not(.nav-cta) { display: none; }
+  .booking-section { overflow-x: hidden; }
+  .cal-wrap { padding: 16px; }
+  .booking-form { padding: 20px 16px; }
+  .hero-stats { gap: 20px; flex-wrap: wrap; }
+  .modal { padding: 32px 20px; }
+  .price-summary { font-size: 0.8rem; }
+  .price-row span:last-child { font-size: 0.8rem; text-align: right; max-width: 55%; word-break: break-word; }
 }
 </style>
 </head>
@@ -787,7 +803,7 @@ footer {
 <!-- HERO -->
 <section class="hero">
   <div class="hero-left">
-    <div class="hero-tag">Dresden · Partyverleih</div>
+    <div class="hero-tag" style="color:var(--dark);">Dresden · Partyverleih</div>
     <h1>Verleih für<br>deinen<br><em>Anlass</em></h1>
     <p class="hero-desc">Partyzubehör mieten in Dresden. Stühle und Warmhaltebehälter für jeden Anlass — schnell gebucht, pünktlich geliefert.</p>
     <div class="hero-actions">
@@ -926,7 +942,7 @@ footer {
       </div>
     </div>
   </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px;">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px;" class="delivery-grid">
     <div class="delivery-banner" style="flex-direction:column;align-items:flex-start;gap:12px;">
       <div style="display:flex;align-items:center;gap:16px;">
         <div class="delivery-icon">🚚</div>
@@ -1293,6 +1309,10 @@ footer {
   </div>
   <div class="footer-right">
     <div class="footer-info">Am Kohlenplatz 10<br>01099 Dresden</div>
+    <a href="https://wa.me/4915216904465" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;margin-top:12px;background:#25D366;color:#ffffff;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;padding:8px 16px;border-radius:99px;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.85.5 3.58 1.4 5.09L2 22l5.2-1.48c1.43.79 3.06 1.24 4.79 1.24h.01c5.46 0 9.91-4.45 9.91-9.91C21.91 6.39 17.5 2 12.04 2zm0 18.16h-.01c-1.57 0-3.1-.43-4.43-1.23l-.32-.19-3.3.94.95-3.21-.21-.33a8.16 8.16 0 0 1-1.26-4.34c0-4.5 3.66-8.16 8.17-8.16 2.18 0 4.23.85 5.77 2.39a8.1 8.1 0 0 1 2.4 5.78c0 4.5-3.67 8.15-8.16 8.15zm4.48-6.11c-.25-.12-1.45-.71-1.67-.79-.22-.08-.39-.12-.55.12-.16.25-.63.79-.78.95-.14.16-.29.18-.54.06-1.46-.73-2.42-1.3-3.38-2.95-.26-.44.26-.41.74-1.37.08-.16.04-.3-.02-.42-.07-.12-.6-1.44-.82-1.97-.22-.52-.44-.45-.6-.46-.16-.01-.34-.01-.52-.01-.18 0-.47.07-.72.34-.25.27-.95.93-.95 2.27 0 1.34.98 2.64 1.12 2.82.14.18 1.91 2.91 4.64 4 2.73 1.08 2.73.72 3.22.68.49-.04 1.45-.59 1.66-1.16.21-.57.21-1.06.15-1.16-.06-.1-.23-.16-.48-.28z"/></svg>
+      WhatsApp · 0152 16904465
+    </a>
     <div style="margin-top:10px;display:flex;gap:16px;justify-content:flex-end;flex-wrap:wrap;">
       <button onclick="openDsgvo()" style="background:none;border:none;color:rgba(255,255,255,0.4);font-size:12px;cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif;">Datenschutz</button>
       <button onclick="openAgb()" style="background:none;border:none;color:rgba(255,255,255,0.4);font-size:12px;cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif;">AGB</button>
@@ -1418,6 +1438,7 @@ footer {
       Deutschland</p>
 
       <p style="margin-bottom:12px;"><strong style="color:var(--text);">Kontakt</strong><br>
+      Telefon: 0152 16904465 (auch WhatsApp)<br>
       E-Mail: info@osena-partyverleih.de</p>
 
       <p style="margin-bottom:12px;"><strong style="color:var(--text);">Kleinunternehmerregelung</strong><br>
@@ -1707,22 +1728,28 @@ function renderCal() {
   const firstDay = new Date(calYear, calMonth, 1).getDay();
   const offset = firstDay === 0 ? 6 : firstDay - 1;
   const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  const daysInPrevMonth = new Date(calYear, calMonth, 0).getDate();
   const today = new Date(); today.setHours(0,0,0,0);
   const grid = document.getElementById("cal-grid");
   grid.innerHTML = "";
 
+  // Tage des Vormonats — sichtbar aber nicht buchbar
   for (let i = 0; i < offset; i++) {
-    const e = document.createElement("div"); e.className = "cal-day empty"; grid.appendChild(e);
+    const day = daysInPrevMonth - offset + i + 1;
+    const e = document.createElement("div");
+    e.className = "cal-day empty";
+    e.innerHTML = `<span class="cal-day-num" style="color:#ccc;">${day}</span>`;
+    e.style.background = "rgba(0,0,0,0.02)";
+    e.style.borderColor = "transparent";
+    grid.appendChild(e);
   }
+
   for (let d = 1; d <= daysInMonth; d++) {
     const date = new Date(calYear, calMonth, d);
     const dateStr = toLocalDateStr(date);
-    // Show combined availability (min of both types that are being requested)
     const availE = getAvailable('eleganz', dateStr);
     const availK = getAvailable('klapp', dateStr);
     const isPast = date < today;
-    // Calendar color: if either type fully booked show limited/full
-    const minAvail = Math.min(availE, availK);
 
     const cell = document.createElement("div");
     cell.className = "cal-day";
@@ -1742,6 +1769,42 @@ function renderCal() {
     cell.innerHTML = `<span class="cal-day-num">${d}</span>`;
     if (!isPast && (availE > 0 || availK > 0)) cell.addEventListener("click", () => onDayClick(dateStr));
     grid.appendChild(cell);
+  }
+
+  // Tage des Folgemonats — sichtbar, direkt buchbar ohne Seitensprung
+  const totalCells = offset + daysInMonth;
+  const remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+  for (let i = 1; i <= remaining; i++) {
+    const nextMonth = calMonth === 11 ? 0 : calMonth + 1;
+    const nextYear = calMonth === 11 ? calYear + 1 : calYear;
+    const date = new Date(nextYear, nextMonth, i);
+    const dateStr = toLocalDateStr(date);
+
+    const e = document.createElement("div");
+    e.className = "cal-day available";
+    e.style.borderColor = "transparent";
+    e.style.cursor = "pointer";
+
+    // Range-Markierung auch für Folgemonate
+    let isSelected = false;
+    let isInRange = false;
+    if (selectedFrom && selectedTo) {
+      const ds = parseLocalDate(selectedFrom);
+      const de = parseLocalDate(selectedTo);
+      if (date >= ds && date <= de) isInRange = true;
+    }
+    if (selectedFrom && dateStr === selectedFrom) isSelected = true;
+    if (selectedTo && dateStr === selectedTo) isSelected = true;
+
+    if (isSelected) {
+      e.classList.add("selected");
+    } else if (isInRange) {
+      e.classList.add("in-range");
+    }
+
+    e.innerHTML = `<span class="cal-day-num" style="color:${isSelected || isInRange ? 'inherit' : '#bbb'};">${i}</span>`;
+    e.addEventListener("click", () => onDayClick(dateStr));
+    grid.appendChild(e);
   }
 }
 
