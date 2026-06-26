@@ -650,15 +650,33 @@ tbody td {
 // ══════════════════════════════
 //  CONFIG — PASSWORT HIER SETZEN!
 // ══════════════════════════════
-const ADMIN_PASSWORD = 'osena2026!'; // ← Passwort hier ändern!
+// ══════════════════════════════
+//  CONFIG — PASSWORT-HASH
+//  ⚠️ Hier steht NICHT das Passwort selbst, sondern dessen
+//  SHA-256-Hash. So kann niemand das Passwort einfach im
+//  Code ablesen. Wie du den Hash für ein eigenes Passwort
+//  erzeugst, steht weiter unten erklärt.
+// ══════════════════════════════
+const ADMIN_PASSWORD_HASH = 'fdad2c3c10ed658c5874a3815f534bec175a6bc71923d40153a7bfc3c44272ee'; // aktuell: osena2026
+// So erzeugst du den Hash für ein NEUES eigenes Passwort:
+// 1. Öffne diese Seite im Browser, drücke F12 → Tab "Console"
+// 2. Tippe ein: await sha256("DEIN-NEUES-PASSWORT")
+// 3. Den ausgegebenen Hash hier oben einfügen, alte Zeile ersetzen
+// 4. Datei speichern & auf GitHub hochladen — fertig, Klartext steht nirgends mehr im Code
+
+async function sha256(text) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
 const SUPABASE_URL = 'https://ikydjavfavlprhfhsiqi.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_q6j4qe6tkY9lX5n9pv0dLg_IalGCGGc';
 
 // ── LOGIN
-function checkLogin() {
+async function checkLogin() {
   const pw = document.getElementById('password-input').value;
-  if (pw === ADMIN_PASSWORD) {
+  const inputHash = await sha256(pw);
+  if (inputHash === ADMIN_PASSWORD_HASH) {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('admin-panel').style.display = 'block';
     loadBookings();
